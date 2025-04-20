@@ -1,0 +1,36 @@
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: classpath:${KEY-STORE-CLASSPATH}
+    key-store-password: ${KEY-STORE-PASSWORD}
+    key-store-type: ${KEY-STORE-TYPE}
+    key-alias: ${KEY-ALIAS}
+
+spring:
+  application:
+    name: audit-labs
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB-URL}
+    username: ${DB-USER}
+    password: ${DB-PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+
+logging:
+  patter:
+    dateformat: hh:mm
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
