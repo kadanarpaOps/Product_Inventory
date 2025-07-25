@@ -12,7 +12,7 @@
 	<artifactId>audit_lab</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>audit_lab</name>
-	<description>Daisy lab for audit, ssl, jaspersoft reports and the 3 different ways to audit implementation</description>
+	<description>Simple Auditing Example following the 'Un Programador Nace' Guide</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -1,4 +1,4 @@
-package top.daisy_dev.audit_lab;
+package top.daisy_dev.simple_auditing;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
