@@ -1,6 +1,6 @@
 ## Product Inventory Lab
 
-<img src="https://drive.google.com/uc?export=view&id=1m-v0yfqzNgoTTr5KVAk2ttXu_ZLnoxh1" width="1000"/>
+<img src="https://drive.google.com/uc?export=view&id=1C452ZKemzSyGFD5j4vHjEGvN8cUjn_Ef" width="1000"/>
 
 **ProductInventory** es un proyecto (aún en desarrollo) de laboratorio desarrollado con Spring Boot, orientado a practicar y consolidar conceptos técnicos clave como auditoría con JPA, seguridad con SSL, pruebas automatizadas, arquitectura hexagonal, JasperReports y scheduling. El proyecto gestiona un inventario de productos, usuarios y empleados, permitiendo el registro y seguimiento de operaciones con trazabilidad completa.
 
@@ -34,18 +34,27 @@ El proyecto en su culminación debe contar con:
   - [ ] Contrato de Servicio
     - [ ] Crear Producto
     - [ ] Actualizar Producto
-    - [ ] Buscar Producto por id
-    - [ ] Buscar Producto por nombre
-    - [ ] Buscar Todos los Productos
-    - [ ] Buscar Productos por filtros personalizados
+    - [x] Buscar Producto Habilitado por id
+    - [x] Buscar Cualquier Producto por id
+    - [x] Buscar Producto Habilitado por nombre
+    - [x] Buscar Cualquier Producto por nombre
+    - [x] Buscar Todos los Productos
+    - [x] Buscar Todos los Productos Habilitados
+    - [x] Buscar Todos los Productos Deshabilitados
+    - [x] Buscar Productos por filtros personalizados
     - [ ] Deshabilitar Producto
     - [ ] Verificar Stock, que devuelva `enum` en caso de estar debajo del mínimo o ser igual al máximo
   - [ ] Contrato de Repositorio
     - [ ] Guardar Producto
     - [ ] Buscar todos
-    - [ ] Buscar por id
-    - [ ] Buscar por nombre
+    - [ ] Buscar todos los deshabilitados
+    - [ ] Buscar todos los habilitados
+    - [ ] Buscar cualquiera por id
+    - [ ] Buscar habilitado por id
+    - [ ] Buscar cualquier por nombre
+    - [ ] Buscar habilitado por nombre
     - [ ] Buscar por Query Personalizado
+
 
 ### [jpa-listeners] Implementación de Auditoría Manual con Listeners
 > Objetivo: Implementar listener para auditar operaciones sobre productos
@@ -58,7 +67,14 @@ El proyecto en su culminación debe contar con:
 - [x] Agregar auditoría con usuario InMemoryDetails (provisional)
 - [ ] Agregar auditoría de usuario autenticado
 
----
+### [jpa-listeners] Implementación de Auditoría Manual con Listeners
+> Objetivo: Implementar modelado, contratos y lógica de negocio para fabricantes
+
+#### Subtareas:
+- [ ] Crear scaffolding para `Manufacturers`
+- [ ] Crear contratos para `Manufacturers`
+- [ ] Implementar la relación `One Manufacturer → Many Products`
+
 
 ### [jpa-listeners] Configuración de Seguridad con SSL
 > Objetivo: Configurar HTTPS y políticas básicas de seguridad
