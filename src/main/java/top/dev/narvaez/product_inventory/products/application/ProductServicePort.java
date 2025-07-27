@@ -54,47 +54,57 @@ public class ProductServicePort implements ProductUseCases {
 
     @Override
     public ProductModel findAvailableProductById(Long id) {
-        return null;
+        return productRepository.selectAvailableById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public ProductModel findAnyProductById(Long id) {
-        return null;
+        return productRepository.selectById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
-    public ProductModel findAvailableProductByName(Long id) {
-        return null;
+    public ProductModel findAvailableProductByName(String name) {
+        return productRepository.selectAvailableByName(name)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
-    public ProductModel findAnyProductByName(Long id) {
-        return null;
+    public ProductModel findAnyProductByName(String name) {
+        return productRepository.selectByName(name)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public List<ProductModel> findAllAvailableProducts(Long id) {
-        return List.of();
+        return productRepository.selectAllAvailable();
     }
 
     @Override
     public List<ProductModel> findAllDisabledProducts(Long id) {
-        return List.of();
+        return productRepository.selectAllDisabled();
     }
 
     @Override
     public List<ProductModel> findAllProducts(Long id) {
-        return List.of();
+        return productRepository.selectAll();
     }
 
     @Override
     public List<ProductModel> findProductsByCustomSearch(Long id, String name, String description, String category, BigDecimal price, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active) {
-        return List.of();
+        return productRepository.selectByCustomSearch(
+                id, name, description, category, price, manufacturer, stock, minStock, maxStock, active
+        );
     }
 
     @Override
     public boolean disableProductById(Long id) {
-        return false;
+        ProductModel toDisableProduct = this.findAnyProductById(id);
+        if (!toDisableProduct.isActive()) throw new RuntimeException("Product already disabled");
+        toDisableProduct.setActive(false);
+        productRepository.saveProduct(toDisableProduct);
+        return true;
     }
 
     @Override

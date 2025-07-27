@@ -15,9 +15,9 @@ public interface ProductUseCases {
 
     ProductModel findAnyProductById(Long id);
 
-    ProductModel findAvailableProductByName(Long id);
+    ProductModel findAvailableProductByName(String name);
 
-    ProductModel findAnyProductByName(Long id);
+    ProductModel findAnyProductByName(String name);
 
     List<ProductModel> findAllAvailableProducts(Long id);
 

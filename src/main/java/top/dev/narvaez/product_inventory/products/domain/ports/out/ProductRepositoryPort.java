@@ -14,7 +14,7 @@ public interface ProductRepositoryPort {
 
     List<ProductModel> selectAllDisabled();
 
-    List<ProductModel> selectAllEnabled();
+    List<ProductModel> selectAllAvailable();
 
     Optional<ProductModel> selectById(Long id);
 
