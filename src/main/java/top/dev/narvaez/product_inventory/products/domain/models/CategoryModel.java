@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class CategoryModel {
 
-    private String id;
+    private Long id;
     @Enumerated(EnumType.STRING)
     private ProductCategory name;
     private String description;

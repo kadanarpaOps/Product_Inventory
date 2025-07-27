@@ -26,7 +26,7 @@ public interface ProductUseCases {
     List<ProductModel> findAllProducts(Long id);
 
     List<ProductModel> findProductsByCustomSearch(
-            Long id, String name, String description, String category, BigDecimal price, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active);
+            String name, String category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active);
 
     boolean disableProductById(Long id);
 
