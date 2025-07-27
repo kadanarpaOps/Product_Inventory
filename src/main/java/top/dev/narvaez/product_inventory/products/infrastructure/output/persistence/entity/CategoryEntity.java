@@ -14,7 +14,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import top.dev.narvaez.product_inventory.listeners.application.listener.AuditProductListener;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 
 @AllArgsConstructor
@@ -24,7 +23,6 @@ import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 @Entity
 @Builder
 @Table(name = "CATEGORIES")
-@EntityListeners(AuditProductListener.class)
 public class CategoryEntity {
 
     @Id
