@@ -1,4 +1,4 @@
-package top.daisy_dev.audit_lab;
+package top.dev.narvaez.product_inventory;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
