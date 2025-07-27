@@ -1,6 +1,6 @@
 ## Product Inventory Lab
 
-<img src="https://drive.google.com/uc?export=view&id=1C452ZKemzSyGFD5j4vHjEGvN8cUjn_Ef" width="1000"/>
+<img src="https://drive.google.com/uc?export=view&id=1thzClNb4TVyiJH65o-nbALVfcnIDh1Wd" width="1000"/>
 
 **ProductInventory** es un proyecto (aún en desarrollo) de laboratorio desarrollado con Spring Boot, orientado a practicar y consolidar conceptos técnicos clave como auditoría con JPA, seguridad con SSL, pruebas automatizadas, arquitectura hexagonal, JasperReports y scheduling. El proyecto gestiona un inventario de productos, usuarios y empleados, permitiendo el registro y seguimiento de operaciones con trazabilidad completa.
 
@@ -42,19 +42,23 @@ El proyecto en su culminación debe contar con:
     - [x] Buscar Todos los Productos Habilitados
     - [x] Buscar Todos los Productos Deshabilitados
     - [x] Buscar Productos por filtros personalizados
-    - [ ] Deshabilitar Producto
-    - [ ] Verificar Stock, que devuelva `enum` en caso de estar debajo del mínimo o ser igual al máximo
-  - [ ] Contrato de Repositorio
-    - [ ] Guardar Producto
-    - [ ] Buscar todos
-    - [ ] Buscar todos los deshabilitados
-    - [ ] Buscar todos los habilitados
-    - [ ] Buscar cualquiera por id
-    - [ ] Buscar habilitado por id
-    - [ ] Buscar cualquier por nombre
-    - [ ] Buscar habilitado por nombre
-    - [ ] Buscar por Query Personalizado
-
+    - [x] Deshabilitar Producto
+    - [x] Activar Producto
+    - [x] Verificar Stock, que devuelva `enum` en caso de estar debajo del mínimo o ser igual al máximo
+  - [x] Contrato de Repositorio
+    - [x] Guardar Producto
+    - [x] Buscar todos
+    - [x] Buscar todos los deshabilitados
+    - [x] Buscar todos los habilitados
+    - [x] Buscar cualquiera por id
+    - [x] Buscar habilitado por id
+    - [x] Buscar cualquier por nombre
+    - [x] Buscar habilitado por nombre
+    - [x] Buscar por Query Personalizado
+- [ ] Excepciones Propias
+- [ ] Manejar las excepciones mediante `@RestControllerAdvice`
+- [ ] Manejar `MessageResponse`
+- [ ] Utilizar `CategoryServicePort` en lugar de `CategoryRepositoryPort`
 
 ### [jpa-listeners] Implementación de Auditoría Manual con Listeners
 > Objetivo: Implementar listener para auditar operaciones sobre productos
@@ -74,7 +78,8 @@ El proyecto en su culminación debe contar con:
 - [ ] Crear scaffolding para `Manufacturers`
 - [ ] Crear contratos para `Manufacturers`
 - [ ] Implementar la relación `One Manufacturer → Many Products`
-
+### [jpa-listeners] Implementación de Auditoría Manual con Listeners
+> Objetivo: Implementar lógica para Azure Blob Storage
 
 ### [jpa-listeners] Configuración de Seguridad con SSL
 > Objetivo: Configurar HTTPS y políticas básicas de seguridad
