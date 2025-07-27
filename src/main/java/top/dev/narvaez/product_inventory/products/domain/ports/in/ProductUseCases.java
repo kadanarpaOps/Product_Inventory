@@ -19,11 +19,11 @@ public interface ProductUseCases {
 
     ProductModel findAnyProductByName(String name);
 
-    List<ProductModel> findAllAvailableProducts(Long id);
+    List<ProductModel> findAllAvailableProducts();
 
-    List<ProductModel> findAllDisabledProducts(Long id);
+    List<ProductModel> findAllDisabledProducts();
 
-    List<ProductModel> findAllProducts(Long id);
+    List<ProductModel> findAllProducts();
 
     List<ProductModel> findProductsByCustomSearch(
             String name, String category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active);

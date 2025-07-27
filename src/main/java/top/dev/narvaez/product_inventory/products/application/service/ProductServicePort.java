@@ -77,17 +77,17 @@ public class ProductServicePort implements ProductUseCases {
     }
 
     @Override
-    public List<ProductModel> findAllAvailableProducts(Long id) {
+    public List<ProductModel> findAllAvailableProducts() {
         return productRepository.selectAllAvailable();
     }
 
     @Override
-    public List<ProductModel> findAllDisabledProducts(Long id) {
+    public List<ProductModel> findAllDisabledProducts() {
         return productRepository.selectAllDisabled();
     }
 
     @Override
-    public List<ProductModel> findAllProducts(Long id) {
+    public List<ProductModel> findAllProducts() {
         return productRepository.selectAll();
     }
 
