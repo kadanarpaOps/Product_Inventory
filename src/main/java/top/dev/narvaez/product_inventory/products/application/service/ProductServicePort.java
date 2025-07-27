@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory.products.application;
+package top.dev.narvaez.product_inventory.products.application.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -109,12 +109,12 @@ public class ProductServicePort implements ProductUseCases {
 
     @Override
     public StockSuitability verifyStockSuitability(ProductModel toVerifyProduct, Long oldProductId) {
-        return null;
+        return compareStocks(toVerifyProduct, this.findAnyProductById(oldProductId));
     }
 
     @Override
     public StockSuitability verifyStockSuitability(ProductModel toVerifyProduct) {
-        return null;
+        return compareStocks(toVerifyProduct, toVerifyProduct);
     }
 
     private void fillNullValues(ProductModel productModel) {
@@ -129,13 +129,25 @@ public class ProductServicePort implements ProductUseCases {
         productFromEntity.setId(productModel.getId());
         productFromEntity.setName(productModel.getName());
         productFromEntity.setDescription(productModel.getDescription());
-        productFromEntity.setCategory(productModel.getCategory());
+        productFromEntity.setCategory(
+                categoryRepository.selectByName(productModel.getCategory().getName()).get());
         productFromEntity.setPrice(productModel.getPrice());
         productFromEntity.setManufacturer(productModel.getManufacturer());
         productFromEntity.setStock(productModel.getStock());
         productFromEntity.setMinStock(productModel.getMinStock());
         productFromEntity.setMaxStock(productModel.getMaxStock());
         productFromEntity.setActive(productModel.isActive());
+    }
+
+    private StockSuitability compareStocks(ProductModel toVerifyProduct, ProductModel compareProduct) {
+        if (toVerifyProduct.getStock().compareTo(compareProduct.getMinStock()) < 0) {
+            return StockSuitability.LOWER_THAN_MIN;
+        } else if (toVerifyProduct.getStock().compareTo(compareProduct.getMaxStock()) > 0) {
+            return StockSuitability.GREATER_THAN_MAX;
+        } else  if (toVerifyProduct.getStock().compareTo(compareProduct.getMaxStock()) == 0) {
+            return StockSuitability.EQUALS_MAX;
+        }
+        return StockSuitability.OK;
     }
 
 }
