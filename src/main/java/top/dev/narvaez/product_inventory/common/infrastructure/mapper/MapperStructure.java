@@ -4,6 +4,6 @@ import org.modelmapper.ModelMapper;
 
 public abstract class MapperStructure {
 
-    protected final ModelMapper modelMapper = new ModelMapper();
+    protected final ModelMapper mapper = new ModelMapper();
 
 }

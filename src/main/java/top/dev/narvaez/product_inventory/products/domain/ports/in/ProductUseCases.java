@@ -30,6 +30,8 @@ public interface ProductUseCases {
 
     boolean disableProductById(Long id);
 
+    boolean activateProductById(Long id);
+
     StockSuitability verifyStockSuitability(ProductModel toVerifyProduct, Long oldProductId);
 
     StockSuitability verifyStockSuitability(ProductModel toVerifyProduct);

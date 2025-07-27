@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ReqProductDTO {
+public class UpdateProductDTO extends ProductDTO {
 
-    private String name;
-    private String description;
-    private BigDecimal price;
+    private Long id;
+    private boolean active;
 
 }

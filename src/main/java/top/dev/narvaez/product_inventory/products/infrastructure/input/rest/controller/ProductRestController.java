@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.dto.ReqProductDTO;
+import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.dto.ProductDTO;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.repository.JpaProductRepository;
 
@@ -22,7 +22,7 @@ public class ProductRestController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/save")
-    public ResponseEntity<ProductEntity> saveProduct(@RequestBody ReqProductDTO productDTO) {
+    public ResponseEntity<ProductEntity> saveProduct(@RequestBody ProductDTO productDTO) {
         ProductEntity productEntity = ProductEntity.builder()
                 .name(productDTO.getName())
                 .price(productDTO.getPrice())

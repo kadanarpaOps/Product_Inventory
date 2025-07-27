@@ -8,6 +8,7 @@ import top.dev.narvaez.product_inventory.products.infrastructure.output.persiste
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface JpaProductRepository extends JpaRepository<ProductEntity, Long> {
@@ -25,12 +26,17 @@ public interface JpaProductRepository extends JpaRepository<ProductEntity, Long>
     @Query(value =
             "SELECT p FROM ProductEntity p WHERE p.id = :id AND p.active = TRUE"
     )
-    List<ProductEntity> findAvailableById(@Param("id") Long id);
+    Optional<ProductEntity> findAvailableById(@Param("id") Long id);
 
     @Query(value =
             "SELECT p FROM ProductEntity p WHERE p.name = :name AND p.active = TRUE"
     )
-    List<ProductEntity> findAvailableByName(@Param("name") Long name);
+    Optional<ProductEntity> findAvailableByName(@Param("name") String name);
+
+    @Query(value =
+            "SELECT p FROM ProductEntity p WHERE p.name = :name"
+    )
+    Optional<ProductEntity> findByName(@Param("name") String name);
 
     @Query(value =
             "SELECT p FROM ProductEntity p " +

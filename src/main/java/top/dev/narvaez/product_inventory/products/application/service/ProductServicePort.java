@@ -108,6 +108,15 @@ public class ProductServicePort implements ProductUseCases {
     }
 
     @Override
+    public boolean activateProductById(Long id) {
+        ProductModel toActivateProduct = this.findAnyProductById(id);
+        if (toActivateProduct.isActive()) throw new RuntimeException("Product already active");
+        toActivateProduct.setActive(true);
+        productRepository.saveProduct(toActivateProduct);
+        return true;
+    }
+
+    @Override
     public StockSuitability verifyStockSuitability(ProductModel toVerifyProduct, Long oldProductId) {
         return compareStocks(toVerifyProduct, this.findAnyProductById(oldProductId));
     }
