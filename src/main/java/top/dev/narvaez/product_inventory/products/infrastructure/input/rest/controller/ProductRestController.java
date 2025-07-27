@@ -30,8 +30,8 @@ public class ProductRestController {
         return ResponseEntity.ok(mapper.toUpdateDTO(productService.findAnyProductById(id)));
     }
 
-    @GetMapping("/find-by-name/{name}")
-    ResponseEntity<UpdateProductDTO> retrieveAnyProductByName(@PathVariable String name) {
+    @GetMapping("/find-by-name")
+    ResponseEntity<UpdateProductDTO> retrieveAnyProductByName(@RequestParam String name) {
         return ResponseEntity.ok(mapper.toUpdateDTO(productService.findAnyProductByName(name)));
     }
 
