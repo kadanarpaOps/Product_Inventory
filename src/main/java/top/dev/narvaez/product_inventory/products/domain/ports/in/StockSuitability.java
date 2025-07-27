@@ -4,6 +4,7 @@ public enum StockSuitability {
 
     LOWER_THAN_MIN,
     OK,
+    GREATER_THAN_MAX,
     EQUALS_MAX
 
 }

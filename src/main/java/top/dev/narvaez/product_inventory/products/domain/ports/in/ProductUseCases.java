@@ -9,7 +9,7 @@ public interface ProductUseCases {
 
     ProductModel saveProduct(ProductModel productModel);
 
-    void updateProduct(ProductModel productModel);
+    ProductModel updateProduct(ProductModel productModel, Long productId);
 
     ProductModel findAvailableProductById(Long id);
 
@@ -30,6 +30,8 @@ public interface ProductUseCases {
 
     boolean disableProductById(Long id);
 
-    StockSuitability verifyStockSuitability(ProductModel toVerifyProduct, String oldProductId);
+    StockSuitability verifyStockSuitability(ProductModel toVerifyProduct, Long oldProductId);
+
+    StockSuitability verifyStockSuitability(ProductModel toVerifyProduct);
 
 }
