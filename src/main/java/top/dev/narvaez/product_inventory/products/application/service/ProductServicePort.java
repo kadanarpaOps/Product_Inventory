@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
-import top.dev.narvaez.product_inventory.common.config.util.ProvisionalConstants;
+import top.dev.narvaez.product_inventory.common.application.util.ProvisionalConstants;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.StockSuitability;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.CategoryRepositoryPort;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.ProductRepositoryPort;

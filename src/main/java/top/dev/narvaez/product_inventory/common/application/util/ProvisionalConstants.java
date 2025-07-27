@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory.common.config.util;
+package top.dev.narvaez.product_inventory.common.application.util;
 
 public class ProvisionalConstants {
 
