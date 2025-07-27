@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.ProductRepositoryPort;
+import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.mapper.ProductPersistenceMapper;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.repository.JpaProductRepository;
 
@@ -21,6 +22,7 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public ProductModel saveProduct(ProductModel product) {
+        ProductEntity productEntity = mapper.toEntity(product);
         return mapper.toModel(productRepository.save(mapper.toEntity(product)));
     }
 
@@ -64,4 +66,10 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
         return productRepository.findFilteredProducts(name, category, minPrice, maxPrice, manufacturer, stock, minStock, maxStock, active)
                 .stream().map(mapper::toModel).toList();
     }
+
+    public boolean verifyRepositoryReady() {
+        if (productRepository.count() == 0) return true;
+        return false;
+    }
+
 }

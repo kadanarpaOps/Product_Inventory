@@ -129,6 +129,7 @@ public class ProductServicePort implements ProductUseCases {
     private void fillNullValues(ProductModel productModel) {
         if (productModel.getCategory() == null)
             productModel.setCategory(categoryRepository.selectByName(ProductCategory.UNDEFINED).orElseThrow(EntityNotFoundException::new));
+        if (productModel.getStock() == null) productModel.setStock(ProvisionalConstants.MIN_STOCK);
         if (productModel.getMinStock() == null) productModel.setMinStock(ProvisionalConstants.MIN_STOCK);
         if (productModel.getMaxStock() == null) productModel.setMaxStock(ProvisionalConstants.MAX_STOCK);
         if (productModel.getManufacturer() == null) productModel.setManufacturer(ProvisionalConstants.MANUFACTURER);
