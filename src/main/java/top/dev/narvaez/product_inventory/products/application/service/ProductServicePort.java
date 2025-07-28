@@ -24,7 +24,7 @@ public class ProductServicePort implements ProductUseCases {
 
     @Override
     public ProductModel saveProduct(ProductModel productModel) {
-        fillNullValues(productModel);
+        fillNullValuesToCreate(productModel);
 
         switch (verifyStockSuitability(productModel)) {
             case LOWER_THAN_MIN -> throw new RuntimeException("Lower than minimum stock suitability");
@@ -40,14 +40,14 @@ public class ProductServicePort implements ProductUseCases {
         if (!productModel.getId().equals(productId))
             throw new RuntimeException("The REST product id does not match the BODY product id");
 
-        fillNullValues(productModel);
+        ProductModel productFromEntity = findAnyProductById(productId);
+        fillNullValuesToUpdate(productModel, productFromEntity);
 
         switch (verifyStockSuitability(productModel, productModel.getId())) {
             case LOWER_THAN_MIN -> throw new RuntimeException("Lower than minimum stock suitability");
             case GREATER_THAN_MAX -> throw new RuntimeException("Greater than maximum stock suitability");
         }
 
-        ProductModel productFromEntity = findAnyProductById(productId);
         mapProducts(productModel, productFromEntity);
         return productRepository.saveProduct(productFromEntity);
     }
@@ -126,13 +126,24 @@ public class ProductServicePort implements ProductUseCases {
         return compareStocks(toVerifyProduct, toVerifyProduct);
     }
 
-    private void fillNullValues(ProductModel productModel) {
+    private void fillNullValuesToCreate(ProductModel productModel) {
         if (productModel.getCategory() == null)
             productModel.setCategory(categoryRepository.selectByName(ProductCategory.UNDEFINED).orElseThrow(EntityNotFoundException::new));
         if (productModel.getStock() == null) productModel.setStock(ProvisionalConstants.MIN_STOCK);
         if (productModel.getMinStock() == null) productModel.setMinStock(ProvisionalConstants.MIN_STOCK);
         if (productModel.getMaxStock() == null) productModel.setMaxStock(ProvisionalConstants.MAX_STOCK);
         if (productModel.getManufacturer() == null) productModel.setManufacturer(ProvisionalConstants.MANUFACTURER);
+    }
+
+    private void fillNullValuesToUpdate(ProductModel productModel, ProductModel productFromEntity) {
+        if (productModel.getName() == null) productModel.setName(productFromEntity.getName());
+        if (productModel.getDescription() == null) productModel.setDescription(productFromEntity.getDescription());
+        if (productModel.getPrice() == null) productModel.setPrice(productFromEntity.getPrice());
+        if (productModel.getManufacturer() == null) productModel.setManufacturer(productFromEntity.getManufacturer());
+        if (productModel.getCategory() == null) productModel.setCategory(productFromEntity.getCategory());
+        if (productModel.getStock() == null) productModel.setStock(productFromEntity.getStock());
+        if (productModel.getMinStock() == null) productModel.setMinStock(productFromEntity.getMinStock());
+        if (productModel.getMaxStock() == null) productModel.setMaxStock(productFromEntity.getMaxStock());
     }
 
     private void mapProducts(ProductModel productModel, ProductModel productFromEntity) {
