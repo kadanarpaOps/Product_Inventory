@@ -1,18 +1,14 @@
 package top.dev.narvaez.product_inventory.products.infrastructure.input.rest.controller;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
 import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.dto.ProductDTO;
 import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.dto.UpdateProductDTO;
 import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.mapper.ProductRestMapper;
-import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
-import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.repository.JpaProductRepository;
 
 import java.util.List;
 
@@ -24,6 +20,12 @@ public class ProductRestController {
     private final ProductUseCases productService;
 
     private final ProductRestMapper mapper;
+
+    @PostMapping("/create")
+    ResponseEntity<UpdateProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
+        ProductModel productModel = mapper.toModel(productDTO);
+        return ResponseEntity.ok(mapper.toUpdateDTO(productService.saveProduct(mapper.toModel(productDTO))));
+    }
 
     @GetMapping("/find/{id}")
     ResponseEntity<UpdateProductDTO> retrieveAnyProductById(@PathVariable Long id) {
@@ -46,8 +48,8 @@ public class ProductRestController {
         return ResponseEntity.ok(mapper.toUpdateDTO(productService.findAvailableProductById(id)));
     }
 
-    @GetMapping("/available/find-by-name/{name}")
-    ResponseEntity<UpdateProductDTO> retrieveAvailableProductByName(@PathVariable String name) {
+    @GetMapping("/available/find-by-name")
+    ResponseEntity<UpdateProductDTO> retrieveAvailableProductByName(@RequestParam String name) {
         return ResponseEntity.ok(mapper.toUpdateDTO(productService.findAvailableProductByName(name)));
     }
 
@@ -61,6 +63,16 @@ public class ProductRestController {
     ResponseEntity<List<UpdateProductDTO>> retrieveDisabledProducts() {
         return ResponseEntity.ok((productService.findAllDisabledProducts()
                 .stream().map(mapper::toUpdateDTO).toList()));
+    }
+
+    @PutMapping("/active/{id}")
+    ResponseEntity<Boolean> activeProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.activateProductById(id));
+    }
+
+    @PutMapping("/disable/{id}")
+    ResponseEntity<Boolean> disableProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.disableProductById(id));
     }
 
     @GetMapping("/roles")

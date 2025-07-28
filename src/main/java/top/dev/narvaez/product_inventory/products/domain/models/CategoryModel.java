@@ -1,10 +1,9 @@
 package top.dev.narvaez.product_inventory.products.domain.models;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
@@ -14,7 +13,6 @@ import lombok.Setter;
 public class CategoryModel {
 
     private Long id;
-    @Enumerated(EnumType.STRING)
     private ProductCategory name;
     private String description;
 
