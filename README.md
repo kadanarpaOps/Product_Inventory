@@ -26,14 +26,14 @@ El proyecto en su culminación debe contar con:
 
 ---
 
-### [jpa-listeners] Implementación de Auditoría Manual con Listeners
-> Objetivo: Implementar listener para auditar operaciones sobre productos
+### [jpa-listeners] Contratos de API + Business Logic
+> Objetivo: Realizar lógica de Negocio, con manejo de excepciones
 
 #### Subtareas:
 - [x] Crear capa de dominio, para ello, definir los contratos de API:
-  - [ ] Contrato de Servicio
-    - [ ] Crear Producto
-    - [ ] Actualizar Producto
+  - [x] Contrato de Servicio
+    - [x] Crear Producto
+    - [x] Actualizar Producto
     - [x] Buscar Producto Habilitado por id
     - [x] Buscar Cualquier Producto por id
     - [x] Buscar Producto Habilitado por nombre
@@ -66,20 +66,18 @@ El proyecto en su culminación debe contar con:
 #### Subtareas:
 - [x] Crear entidad `AuditProductEntity`
 - [x] Crear `AuditProductListener` con `@PrePersist`, `@PreUpdate`, `@PreRemove`
-- [ ] Usar puertos para persistir en lugar de JPA directo
+- [x] Usar puertos para persistir en lugar de JPA directo
 - [ ] Registrar nombre viejo y nuevo del producto mediante Trigger SQL
 - [x] Agregar auditoría con usuario InMemoryDetails (provisional)
 - [ ] Agregar auditoría de usuario autenticado
 
-### [jpa-listeners] Implementación de Auditoría Manual con Listeners
+### [jpa-listeners] Implementación de Fabricantes
 > Objetivo: Implementar modelado, contratos y lógica de negocio para fabricantes
 
 #### Subtareas:
 - [ ] Crear scaffolding para `Manufacturers`
 - [ ] Crear contratos para `Manufacturers`
 - [ ] Implementar la relación `One Manufacturer → Many Products`
-### [jpa-listeners] Implementación de Auditoría Manual con Listeners
-> Objetivo: Implementar lógica para Azure Blob Storage
 
 ### [jpa-listeners] Configuración de Seguridad con SSL
 > Objetivo: Configurar HTTPS y políticas básicas de seguridad
@@ -93,10 +91,27 @@ El proyecto en su culminación debe contar con:
 
 ---
 
+### [azure-bs] Implementación de Bucket Blob Storage
+> Objetivo: Implementar lógica para Azure Blob Storage
+
+---
+
 ### [testing] Testing de capa de aplicación
 > Objetivo: Agregar pruebas unitarias e integración para `ProductService`
 
 #### Subtareas:
 - [ ] Pruebas unitarias con mocks
+  - [ ] Products
+    - [ ] Guardar
+      - [ ] Con Categoría nula, se le asigne `UNDEFINED`
+      - [ ] Con Stock nulo, se le asigne `MIN_STOCK`
+      - [ ] Con minStock nulo, se le asigne `MIN_STOCK`
+      - [ ] Con maxStock nulo, se le asigne `MAX_STOCK`
+      - [ ] Con Fabricante nulo, se le asigne `MANUFACTURER`
+      - [ ] Si el Stock introducido es mayor al maxStock o menor que minStock lance sus respectivas excepciones personalizadas
+    - [ ] Actualizar
+      - [ ] Si el id del `JSON Body` es nulo, se le asigne el de la `URL`
+      - [ ] Si el id del `JSON Body` es distinto al de la `URL` se lance una excepción
+      - [ ] Si ingresa valores nulos se le asignen los datos ya persistidos a nivel de BD
 - [ ] Verificar cobertura del 100%
 - [ ] Pruebas de integración con Sonar
