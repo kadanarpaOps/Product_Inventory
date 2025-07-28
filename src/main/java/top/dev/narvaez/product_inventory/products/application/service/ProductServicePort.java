@@ -153,7 +153,6 @@ public class ProductServicePort implements ProductUseCases {
         productFromEntity.setStock(productModel.getStock());
         productFromEntity.setMinStock(productModel.getMinStock());
         productFromEntity.setMaxStock(productModel.getMaxStock());
-        productFromEntity.setActive(productModel.isActive());
     }
 
     private StockSuitability compareStocks(ProductModel toVerifyProduct) {
