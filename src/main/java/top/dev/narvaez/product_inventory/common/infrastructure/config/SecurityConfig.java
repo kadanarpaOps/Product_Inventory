@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory.common.config;
+package top.dev.narvaez.product_inventory.common.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

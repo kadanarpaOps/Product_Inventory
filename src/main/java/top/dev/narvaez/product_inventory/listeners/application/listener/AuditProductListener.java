@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import top.dev.narvaez.product_inventory.common.application.util.ProvisionalConstants;
 import top.dev.narvaez.product_inventory.listeners.infrastructure.output.persistence.entity.AuditProductEntity;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
 import top.dev.narvaez.product_inventory.listeners.infrastructure.output.persistence.repository.JpaAuditProductRepository;
@@ -49,7 +50,7 @@ public class AuditProductListener {
                 .newName(productEntity.getName())
                 .description(productEntity.getDescription())
                 .price(productEntity.getPrice())
-                .auditUser(SecurityContextHolder.getContext().getAuthentication().getName())
+                .auditUser(SecurityContextHolder.getContext().getAuthentication() == null ? ProvisionalConstants.AUDIT_USER : SecurityContextHolder.getContext().getAuthentication().getName())
                 .auditDate(LocalDateTime.now())
                 .build();
     }

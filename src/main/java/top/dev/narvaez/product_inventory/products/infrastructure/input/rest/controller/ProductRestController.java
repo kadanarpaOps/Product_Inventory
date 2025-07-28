@@ -1,16 +1,16 @@
 package top.dev.narvaez.product_inventory.products.infrastructure.input.rest.controller;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.dto.ReqProductDTO;
-import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
-import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.repository.JpaProductRepository;
+import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
+import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
+import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.dto.ProductDTO;
+import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.dto.UpdateProductDTO;
+import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.mapper.ProductRestMapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -18,45 +18,83 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductRestController {
 
-    private final JpaProductRepository productRepo;
+    private final ProductUseCases productService;
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @PostMapping("/save")
-    public ResponseEntity<ProductEntity> saveProduct(@RequestBody ReqProductDTO productDTO) {
-        ProductEntity productEntity = ProductEntity.builder()
-                .name(productDTO.getName())
-                .price(productDTO.getPrice())
-                .description(productDTO.getDescription())
-                .build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(productRepo.save(productEntity));
+    private final ProductRestMapper mapper;
+
+    @PostMapping("/create")
+    ResponseEntity<UpdateProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
+        return ResponseEntity.ok(mapper.toUpdateDTO(productService.saveProduct(mapper.toModel(productDTO))));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/update/{id}")
-    public ResponseEntity<ProductEntity> updateProduct(@RequestBody ProductEntity productEntity, @PathVariable Long id) {
-        ProductEntity updatedProductEntity = productRepo.findById(id).orElseThrow(EntityNotFoundException::new);
-
-        updatedProductEntity.setName(productEntity.getName());
-        updatedProductEntity.setDescription(productEntity.getDescription());
-        updatedProductEntity.setPrice(productEntity.getPrice());
-
-        return ResponseEntity.ok(productRepo.save(updatedProductEntity));
+    ResponseEntity<UpdateProductDTO> updateProduct(@PathVariable Long id, @RequestBody UpdateProductDTO productDTO) {
+        return ResponseEntity.ok(mapper.toUpdateDTO(productService.updateProduct(mapper.toModel(productDTO), id)));
     }
 
-    @GetMapping("/find")
-    public ResponseEntity<List<ProductEntity>> findAll() {
-        return ResponseEntity.ok(productRepo.findAll());
+    @GetMapping("/find/{id}")
+    ResponseEntity<UpdateProductDTO> retrieveAnyProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(mapper.toUpdateDTO(productService.findAnyProductById(id)));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> deleteProduct(@PathVariable Long id) {
-        if (!productRepo.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
-        }
+    @GetMapping("/find-by-name")
+    ResponseEntity<UpdateProductDTO> retrieveAnyProductByName(@RequestParam String name) {
+        return ResponseEntity.ok(mapper.toUpdateDTO(productService.findAnyProductByName(name)));
+    }
 
-        productRepo.deleteById(id);
-        return ResponseEntity.ok(true);
+    @GetMapping("/find-all")
+    ResponseEntity<List<UpdateProductDTO>> retrieveAllProducts() {
+        return ResponseEntity.ok(productService.findAllProducts()
+                .stream().map(mapper::toUpdateDTO).toList());
+    }
+
+    @GetMapping("/find/search")
+    ResponseEntity<List<UpdateProductDTO>> retrieveProductsByCustomSearch(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) String manufacturer,
+            @RequestParam(required = false) Integer stock,
+            @RequestParam(required = false) Integer minStock,
+            @RequestParam(required = false) Integer maxStock,
+            @RequestParam(required = false) boolean active
+    ) {
+        return ResponseEntity.ok(productService.findProductsByCustomSearch(
+                name, category, minPrice, maxPrice, manufacturer, stock, minStock, maxStock, active
+        ).stream().map(mapper::toUpdateDTO).toList());
+    }
+
+    @GetMapping("/available/find/{id}")
+    ResponseEntity<UpdateProductDTO> retrieveAvailableProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(mapper.toUpdateDTO(productService.findAvailableProductById(id)));
+    }
+
+    @GetMapping("/available/find-by-name")
+    ResponseEntity<UpdateProductDTO> retrieveAvailableProductByName(@RequestParam String name) {
+        return ResponseEntity.ok(mapper.toUpdateDTO(productService.findAvailableProductByName(name)));
+    }
+
+    @GetMapping("/available/find-all")
+    ResponseEntity<List<UpdateProductDTO>> retrieveAvailableProducts() {
+        return ResponseEntity.ok((productService.findAllAvailableProducts()
+                .stream().map(mapper::toUpdateDTO).toList()));
+    }
+
+    @GetMapping("/disabled/find-all")
+    ResponseEntity<List<UpdateProductDTO>> retrieveDisabledProducts() {
+        return ResponseEntity.ok((productService.findAllDisabledProducts()
+                .stream().map(mapper::toUpdateDTO).toList()));
+    }
+
+    @PutMapping("/active/{id}")
+    ResponseEntity<Boolean> activeProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.activateProductById(id));
+    }
+
+    @PutMapping("/disable/{id}")
+    ResponseEntity<Boolean> disableProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.disableProductById(id));
     }
 
     @GetMapping("/roles")
