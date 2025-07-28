@@ -22,6 +22,7 @@ public class ProductRestMapper extends MapperStructure {
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         Converter<String, CategoryModel> setCategoryModelName = c -> {
+            if (c.getSource() == null) return null;
             return new CategoryModel(null, ProductCategory.valueOf(c.getSource().toString()), null);
         };
 
