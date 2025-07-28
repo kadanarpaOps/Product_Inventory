@@ -25,11 +25,7 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public ProductModel saveProduct(ProductModel productModel) {
         fillNullValuesToCreate(productModel);
-
-        switch (verifyStockSuitability(productModel)) {
-            case LOWER_THAN_MIN -> throw new RuntimeException("Lower than minimum stock suitability");
-            case GREATER_THAN_MAX -> throw new RuntimeException("Greater than maximum stock suitability");
-        }
+        verifyValidStock(productModel);
 
         return productRepository.saveProduct(productModel);
     }
@@ -43,10 +39,7 @@ public class ProductServicePort implements ProductUseCases {
         ProductModel productFromEntity = findAnyProductById(productId);
         fillNullValuesToUpdate(productModel, productFromEntity);
 
-        switch (verifyStockSuitability(productModel, productModel.getId())) {
-            case LOWER_THAN_MIN -> throw new RuntimeException("Lower than minimum stock suitability");
-            case GREATER_THAN_MAX -> throw new RuntimeException("Greater than maximum stock suitability");
-        }
+        verifyValidStock(productModel);
 
         mapProducts(productModel, productFromEntity);
         return productRepository.saveProduct(productFromEntity);
@@ -117,18 +110,21 @@ public class ProductServicePort implements ProductUseCases {
     }
 
     @Override
-    public StockSuitability verifyStockSuitability(ProductModel toVerifyProduct, Long oldProductId) {
-        return compareStocks(toVerifyProduct, this.findAnyProductById(oldProductId));
+    public StockSuitability verifyStockSuitability(ProductModel toVerifyProduct) {
+        return compareStocks(toVerifyProduct);
     }
 
-    @Override
-    public StockSuitability verifyStockSuitability(ProductModel toVerifyProduct) {
-        return compareStocks(toVerifyProduct, toVerifyProduct);
+    public void verifyValidStock(ProductModel productModel) {
+        switch (verifyStockSuitability(productModel)) {
+            case LOWER_THAN_MIN -> throw new RuntimeException("Lower than minimum stock suitability");
+            case GREATER_THAN_MAX -> throw new RuntimeException("Greater than maximum stock suitability");
+        }
     }
 
     private void fillNullValuesToCreate(ProductModel productModel) {
         if (productModel.getCategory() == null)
             productModel.setCategory(categoryRepository.selectByName(ProductCategory.UNDEFINED).orElseThrow(EntityNotFoundException::new));
+        else  productModel.setCategory(categoryRepository.selectByName(ProductCategory.valueOf(productModel.getCategory().getName().name())).get());
         if (productModel.getStock() == null) productModel.setStock(ProvisionalConstants.MIN_STOCK);
         if (productModel.getMinStock() == null) productModel.setMinStock(ProvisionalConstants.MIN_STOCK);
         if (productModel.getMaxStock() == null) productModel.setMaxStock(ProvisionalConstants.MAX_STOCK);
@@ -160,12 +156,12 @@ public class ProductServicePort implements ProductUseCases {
         productFromEntity.setActive(productModel.isActive());
     }
 
-    private StockSuitability compareStocks(ProductModel toVerifyProduct, ProductModel compareProduct) {
-        if (toVerifyProduct.getStock().compareTo(compareProduct.getMinStock()) < 0) {
+    private StockSuitability compareStocks(ProductModel toVerifyProduct) {
+        if (toVerifyProduct.getStock().compareTo(toVerifyProduct.getMinStock()) < 0) {
             return StockSuitability.LOWER_THAN_MIN;
-        } else if (toVerifyProduct.getStock().compareTo(compareProduct.getMaxStock()) > 0) {
+        } else if (toVerifyProduct.getStock().compareTo(toVerifyProduct.getMaxStock()) > 0) {
             return StockSuitability.GREATER_THAN_MAX;
-        } else  if (toVerifyProduct.getStock().compareTo(compareProduct.getMaxStock()) == 0) {
+        } else  if (toVerifyProduct.getStock().compareTo(toVerifyProduct.getMaxStock()) == 0) {
             return StockSuitability.EQUALS_MAX;
         }
         return StockSuitability.OK;

@@ -35,6 +35,11 @@ public class ProductRestMapper extends MapperStructure {
                         ProductDTO::getCategory, ProductModel::setCategory
                 ));
 
+        mapper.typeMap(UpdateProductDTO.class, ProductModel.class)
+                .addMappings(m -> m.using(setCategoryModelName).map(
+                        ProductDTO::getCategory, ProductModel::setCategory
+                ));
+
         mapper.typeMap(ProductModel.class, UpdateProductDTO.class)
                 .addMappings(m -> m.using(setCategoryDto).map(
                         ProductModel::getCategory, UpdateProductDTO::setCategory

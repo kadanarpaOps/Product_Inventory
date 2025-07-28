@@ -23,8 +23,13 @@ public class ProductRestController {
 
     @PostMapping("/create")
     ResponseEntity<UpdateProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
-        ProductModel productModel = mapper.toModel(productDTO);
         return ResponseEntity.ok(mapper.toUpdateDTO(productService.saveProduct(mapper.toModel(productDTO))));
+    }
+
+    @PutMapping("/update/{id}")
+    ResponseEntity<UpdateProductDTO> updateProduct(@PathVariable Long id, @RequestBody UpdateProductDTO productDTO) {
+        ProductModel productModel = mapper.toModel(productDTO);
+        return ResponseEntity.ok(mapper.toUpdateDTO(productService.updateProduct(mapper.toModel(productDTO), id)));
     }
 
     @GetMapping("/find/{id}")
