@@ -85,7 +85,7 @@ public class ProductServicePort implements ProductUseCases {
     }
 
     @Override
-    public List<ProductModel> findProductsByCustomSearch(String name, String category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active) {
+    public List<ProductModel> findProductsByCustomSearch(String name, ProductCategory category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active) {
         return productRepository.selectByCustomSearch(
                 name, category, minPrice, maxPrice, manufacturer, stock, minStock, maxStock, active
         );

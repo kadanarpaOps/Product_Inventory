@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
 
 import java.math.BigDecimal;
@@ -47,13 +48,13 @@ public interface JpaProductRepository extends JpaRepository<ProductEntity, Long>
                     "AND (:maxPrice IS NULL or p.price <= :maxPrice) " +
                     "AND (:manufacturer IS NULL OR p.manufacturer ILIKE %:manufacturer%) " +
                     "AND (:stock IS NULL OR p.stock = :stock) " +
-                    "AND (:minStock IS NULL OR p.minStock = :minStock) " +
-                    "AND (:maxStock IS NULL OR p.maxStock = :maxStock) " +
+                    "AND (:minStock IS NULL OR p.stock >= :minStock) " +
+                    "AND (:maxStock IS NULL OR p.stock <= :maxStock) " +
                     "AND (:active IS NULL OR p.active = :active)"
     )
     List<ProductEntity> findFilteredProducts(
             @Param("name") String name,
-            @Param("category") String category,
+            @Param("category") ProductCategory category,
             @Param("minPrice") BigDecimal minPrice,
             @Param("maxPrice") BigDecimal maxPrice,
             @Param("manufacturer") String manufacturer,

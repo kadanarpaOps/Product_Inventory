@@ -1,5 +1,6 @@
 package top.dev.narvaez.product_inventory.products.domain.ports.in;
 
+import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 
 import java.math.BigDecimal;
@@ -26,7 +27,7 @@ public interface ProductUseCases {
     List<ProductModel> findAllProducts();
 
     List<ProductModel> findProductsByCustomSearch(
-            String name, String category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active);
+            String name, ProductCategory category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active);
 
     boolean disableProductById(Long id);
 

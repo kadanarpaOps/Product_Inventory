@@ -1,5 +1,6 @@
 package top.dev.narvaez.product_inventory.products.domain.ports.out;
 
+import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 
 import java.math.BigDecimal;
@@ -25,6 +26,6 @@ public interface ProductRepositoryPort {
     Optional<ProductModel> selectAvailableByName(String name);
 
     List<ProductModel> selectByCustomSearch(
-            String name, String category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active);
+            String name, ProductCategory category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active);
 
 }

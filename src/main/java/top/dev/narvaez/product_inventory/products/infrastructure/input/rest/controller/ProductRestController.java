@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
+import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
 import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.dto.ProductDTO;
 import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.dto.UpdateProductDTO;
 import top.dev.narvaez.product_inventory.products.infrastructure.input.rest.mapper.ProductRestMapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -28,7 +29,6 @@ public class ProductRestController {
 
     @PutMapping("/update/{id}")
     ResponseEntity<UpdateProductDTO> updateProduct(@PathVariable Long id, @RequestBody UpdateProductDTO productDTO) {
-        ProductModel productModel = mapper.toModel(productDTO);
         return ResponseEntity.ok(mapper.toUpdateDTO(productService.updateProduct(mapper.toModel(productDTO), id)));
     }
 
@@ -46,6 +46,23 @@ public class ProductRestController {
     ResponseEntity<List<UpdateProductDTO>> retrieveAllProducts() {
         return ResponseEntity.ok(productService.findAllProducts()
                 .stream().map(mapper::toUpdateDTO).toList());
+    }
+
+    @GetMapping("/find/search")
+    ResponseEntity<List<UpdateProductDTO>> retrieveProductsByCustomSearch(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) String manufacturer,
+            @RequestParam(required = false) Integer stock,
+            @RequestParam(required = false) Integer minStock,
+            @RequestParam(required = false) Integer maxStock,
+            @RequestParam(required = false) boolean active
+    ) {
+        return ResponseEntity.ok(productService.findProductsByCustomSearch(
+                name, category, minPrice, maxPrice, manufacturer, stock, minStock, maxStock, active
+        ).stream().map(mapper::toUpdateDTO).toList());
     }
 
     @GetMapping("/available/find/{id}")

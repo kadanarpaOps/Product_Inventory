@@ -2,6 +2,7 @@ package top.dev.narvaez.product_inventory.products.infrastructure.output.persist
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.ProductRepositoryPort;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
@@ -62,7 +63,7 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     }
 
     @Override
-    public List<ProductModel> selectByCustomSearch(String name, String category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active) {
+    public List<ProductModel> selectByCustomSearch(String name, ProductCategory category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active) {
         return productRepository.findFilteredProducts(name, category, minPrice, maxPrice, manufacturer, stock, minStock, maxStock, active)
                 .stream().map(mapper::toModel).toList();
     }
