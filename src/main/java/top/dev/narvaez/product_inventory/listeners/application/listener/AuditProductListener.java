@@ -45,11 +45,12 @@ public class AuditProductListener {
 
     private AuditProductEntity fillDataIn(ProductEntity productEntity) {
         return AuditProductEntity.builder()
-                .productId(productEntity.getId())
-                .oldName(productEntity.getId() == null || productEntity.getId().toString().isEmpty() ? null : productRepo.findById(productEntity.getId()).get().getName())
+                .productId(
+                        productEntity.getId() != null ? productRepo.findById(productEntity.getId()).get() : null)
                 .newName(productEntity.getName())
-                .description(productEntity.getDescription())
-                .price(productEntity.getPrice())
+                .newDescription(productEntity.getDescription())
+                .newPrice(productEntity.getPrice())
+                .newStock(productEntity.getStock())
                 .auditUser(SecurityContextHolder.getContext().getAuthentication() == null ? ProvisionalConstants.AUDIT_USER : SecurityContextHolder.getContext().getAuthentication().getName())
                 .auditDate(LocalDateTime.now())
                 .build();
