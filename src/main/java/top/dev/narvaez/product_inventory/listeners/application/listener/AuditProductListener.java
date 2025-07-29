@@ -1,6 +1,6 @@
 package top.dev.narvaez.product_inventory.listeners.application.listener;
 
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.PostPersist;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.PreUpdate;
 import lombok.RequiredArgsConstructor;
@@ -22,19 +22,19 @@ public class AuditProductListener {
     private final JpaAuditProductRepository auditProductRepo;
     private final JpaProductRepository productRepo;
 
-    @PrePersist
+    @PostPersist
     private void prePersist(ProductEntity productEntity) {
         AuditProductEntity auditProductEntity = fillDataIn(productEntity);
         auditProductEntity.setOperation("INSERT");
         this.auditProductRepo.save(auditProductEntity);
     }
 
-    @PreUpdate
-    private void preUpdate(ProductEntity productEntity) {
-        AuditProductEntity auditProductEntity = fillDataIn(productEntity);
-        auditProductEntity.setOperation("UPDATE");
-        this.auditProductRepo.save(auditProductEntity);
-    }
+//    @PreUpdate
+//    private void preUpdate(ProductEntity productEntity) {
+//        AuditProductEntity auditProductEntity = fillDataIn(productEntity);
+//        auditProductEntity.setOperation("UPDATE");
+//        this.auditProductRepo.save(auditProductEntity);
+//    }
 
     @PreRemove
     private void preRemove(ProductEntity productEntity) {
@@ -44,16 +44,21 @@ public class AuditProductListener {
     }
 
     private AuditProductEntity fillDataIn(ProductEntity productEntity) {
-        return AuditProductEntity.builder()
-                .productId(
-                        productEntity.getId() != null ? productRepo.findById(productEntity.getId()).get() : null)
+        AuditProductEntity audit = AuditProductEntity.builder()
+                .productId(productEntity)
                 .newName(productEntity.getName())
                 .newDescription(productEntity.getDescription())
                 .newPrice(productEntity.getPrice())
                 .newStock(productEntity.getStock())
-                .auditUser(SecurityContextHolder.getContext().getAuthentication() == null ? ProvisionalConstants.AUDIT_USER : SecurityContextHolder.getContext().getAuthentication().getName())
+                .auditUser(getCurrentUser())
                 .auditDate(LocalDateTime.now())
                 .build();
+        return audit;
+    }
+
+    private String getCurrentUser() {
+        return SecurityContextHolder.getContext().getAuthentication() == null ?
+                ProvisionalConstants.AUDIT_USER : SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
 }
