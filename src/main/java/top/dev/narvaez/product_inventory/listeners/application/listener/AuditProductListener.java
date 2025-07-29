@@ -2,7 +2,6 @@ package top.dev.narvaez.product_inventory.listeners.application.listener;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PreRemove;
-import jakarta.persistence.PreUpdate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,13 +27,6 @@ public class AuditProductListener {
         auditProductEntity.setOperation("INSERT");
         this.auditProductRepo.save(auditProductEntity);
     }
-
-//    @PreUpdate
-//    private void preUpdate(ProductEntity productEntity) {
-//        AuditProductEntity auditProductEntity = fillDataIn(productEntity);
-//        auditProductEntity.setOperation("UPDATE");
-//        this.auditProductRepo.save(auditProductEntity);
-//    }
 
     @PreRemove
     private void preRemove(ProductEntity productEntity) {

@@ -30,7 +30,7 @@ BEGIN
             OLD.PRODUCT_STOCK,
             NEW.PRODUCT_STOCK,
             'UPDATE',
-            CURRENT_USER,
+            COALESCE(@audit_user, 'TRIGGER_SYSTEM'),
             NOW());
 END$$
 
