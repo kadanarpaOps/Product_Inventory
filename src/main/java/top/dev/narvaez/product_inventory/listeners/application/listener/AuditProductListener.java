@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import top.dev.narvaez.product_inventory.listeners.domain.model.AuditProductModel;
+import top.dev.narvaez.product_inventory.listeners.domain.model.OperationType;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
@@ -27,14 +28,14 @@ public class AuditProductListener {
     @PostPersist
     private void prePersist(ProductEntity productEntity) {
         AuditProductModel auditProduct = fillDataIn(productEntity);
-        auditProduct.setOperation("INSERT");
+        auditProduct.setOperation(OperationType.INSERT);
         this.auditProductService.saveAuditProduct(auditProduct);
     }
 
     @PreRemove
     private void preRemove(ProductEntity productEntity) {
         AuditProductModel auditProduct = fillDataIn(productEntity);
-        auditProduct.setOperation("DELETE");
+        auditProduct.setOperation(OperationType.DELETE);
         this.auditProductService.saveAuditProduct(auditProduct);
     }
 

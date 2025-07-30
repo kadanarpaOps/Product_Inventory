@@ -5,10 +5,12 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import top.dev.narvaez.product_inventory.listeners.domain.model.AuditProductModel;
+import top.dev.narvaez.product_inventory.listeners.domain.model.OperationType;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.out.AuditProductRepositoryPort;
 import top.dev.narvaez.product_inventory.users.application.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -37,10 +39,12 @@ public class AuditProductServicePort implements AuditProductUseCases {
     }
 
     @Transactional
-    public void setAuditUserSession() {
+    public void setAuditUpdateParams() {
         String username = userService.getAuthenticatedUser();
-        entityManager.createNativeQuery("SET @audit_user = :user")
+        entityManager.createNativeQuery("SET @operation = :op, @audit_user = :user, @audit_event = :date")
+                .setParameter("op", OperationType.UPDATE)
                 .setParameter("user", username)
+                .setParameter("date", LocalDateTime.now())
                 .executeUpdate();
     }
 }

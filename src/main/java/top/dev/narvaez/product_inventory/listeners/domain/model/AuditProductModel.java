@@ -28,7 +28,7 @@ public class AuditProductModel {
     private Integer oldStock;
     private Integer newStock;
 
-    private String operation;
+    private OperationType operation;
     private String auditUser;
     private LocalDateTime auditDate;
 

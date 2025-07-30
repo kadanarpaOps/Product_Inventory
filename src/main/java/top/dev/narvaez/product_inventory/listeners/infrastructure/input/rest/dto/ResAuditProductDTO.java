@@ -1,5 +1,6 @@
 package top.dev.narvaez.product_inventory.listeners.infrastructure.input.rest.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class ResAuditProductDTO {
 
     private String operation;
     private String auditUser;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
     private LocalDateTime auditDate;
 
 }

@@ -12,6 +12,6 @@ public interface AuditProductUseCases {
 
     List<AuditProductModel> findAllAuditProductsByProductId(Long productId);
 
-    void setAuditUserSession();
+    void setAuditUpdateParams();
 
 }

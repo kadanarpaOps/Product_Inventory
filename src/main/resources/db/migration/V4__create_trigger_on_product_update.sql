@@ -29,9 +29,9 @@ BEGIN
             NEW.PRODUCT_PRICE,
             OLD.PRODUCT_STOCK,
             NEW.PRODUCT_STOCK,
-            'UPDATE',
+            COALESCE(@operation, 'UPDATE_SYSTEM'),
             COALESCE(@audit_user, 'TRIGGER_SYSTEM'),
-            NOW());
+            COALESCE(@audit_date, NOW()));
 END$$
 
 DELIMITER ;

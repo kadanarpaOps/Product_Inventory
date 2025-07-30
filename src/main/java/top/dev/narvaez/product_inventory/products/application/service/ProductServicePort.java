@@ -45,7 +45,7 @@ public class ProductServicePort implements ProductUseCases {
         verifyValidStock(productModel);
 
         mapProducts(productModel, productFromEntity);
-        auditService.setAuditUserSession();
+        auditService.setAuditUpdateParams();
         return productRepository.saveProduct(productFromEntity);
     }
 
