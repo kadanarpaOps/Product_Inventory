@@ -1,5 +1,6 @@
 package top.dev.narvaez.product_inventory.products.domain.ports.in;
 
+import org.apache.coyote.BadRequestException;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 
@@ -29,9 +30,9 @@ public interface ProductUseCases {
     List<ProductModel> findProductsByCustomSearch(
             String name, ProductCategory category, BigDecimal minPrice, BigDecimal maxPrice, String manufacturer, Integer stock, Integer minStock, Integer maxStock, boolean active);
 
-    boolean disableProductById(Long id);
+    boolean disableProductById(Long id) throws BadRequestException;
 
-    boolean activateProductById(Long id);
+    boolean activateProductById(Long id) throws BadRequestException;
 
     StockSuitability verifyStockSuitability(ProductModel toVerifyProduct);
 

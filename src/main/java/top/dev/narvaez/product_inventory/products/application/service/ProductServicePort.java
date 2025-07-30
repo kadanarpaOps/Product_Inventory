@@ -2,6 +2,7 @@ package top.dev.narvaez.product_inventory.products.application.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
@@ -37,7 +38,7 @@ public class ProductServicePort implements ProductUseCases {
     public ProductModel updateProduct(ProductModel productModel, Long productId) {
         if (productModel.getId() == null) productModel.setId(productId);
         if (!productModel.getId().equals(productId))
-            throw new RuntimeException("The REST product id does not match the BODY product id");
+            throw new IllegalArgumentException("The REST product id does not match the BODY product id");
 
         ProductModel productFromEntity = findAnyProductById(productId);
         fillNullValuesToUpdate(productModel, productFromEntity);
@@ -96,18 +97,18 @@ public class ProductServicePort implements ProductUseCases {
     }
 
     @Override
-    public boolean disableProductById(Long id) {
+    public boolean disableProductById(Long id) throws BadRequestException {
         ProductModel toDisableProduct = this.findAnyProductById(id);
-        if (!toDisableProduct.isActive()) throw new RuntimeException("Product already disabled");
+        if (!toDisableProduct.isActive()) throw new BadRequestException("Product already disabled");
         toDisableProduct.setActive(false);
         productRepository.saveProduct(toDisableProduct);
         return true;
     }
 
     @Override
-    public boolean activateProductById(Long id) {
+    public boolean activateProductById(Long id) throws BadRequestException {
         ProductModel toActivateProduct = this.findAnyProductById(id);
-        if (toActivateProduct.isActive()) throw new RuntimeException("Product already active");
+        if (toActivateProduct.isActive()) throw new BadRequestException("Product already active");
         toActivateProduct.setActive(true);
         productRepository.saveProduct(toActivateProduct);
         return true;
@@ -120,8 +121,8 @@ public class ProductServicePort implements ProductUseCases {
 
     public void verifyValidStock(ProductModel productModel) {
         switch (verifyStockSuitability(productModel)) {
-            case LOWER_THAN_MIN -> throw new RuntimeException("Lower than minimum stock suitability");
-            case GREATER_THAN_MAX -> throw new RuntimeException("Greater than maximum stock suitability");
+            case LOWER_THAN_MIN -> throw new IllegalArgumentException("Lower than minimum stock suitability");
+            case GREATER_THAN_MAX -> throw new IllegalArgumentException("Greater than maximum stock suitability");
         }
     }
 

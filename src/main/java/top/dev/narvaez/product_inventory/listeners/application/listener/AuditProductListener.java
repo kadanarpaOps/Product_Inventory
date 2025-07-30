@@ -41,7 +41,7 @@ public class AuditProductListener {
 
     private AuditProductModel fillDataIn(ProductEntity productEntity) {
         ProductModel productModel = mapper.toModel(productEntity);
-        AuditProductModel audit = AuditProductModel.builder()
+        return AuditProductModel.builder()
                 .productId(productModel)
                 .newName(productModel.getName())
                 .newDescription(productModel.getDescription())
@@ -50,7 +50,6 @@ public class AuditProductListener {
                 .auditUser(userService.getAuthenticatedUser())
                 .auditDate(LocalDateTime.now())
                 .build();
-        return audit;
     }
 
 }

@@ -1,6 +1,7 @@
 package top.dev.narvaez.product_inventory.products.infrastructure.input.rest.controller;
 
 import lombok.AllArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +59,7 @@ public class ProductRestController {
             @RequestParam(required = false) Integer stock,
             @RequestParam(required = false) Integer minStock,
             @RequestParam(required = false) Integer maxStock,
-            @RequestParam(required = false) boolean active
+            @RequestParam(required = false) Boolean active
     ) {
         return ResponseEntity.ok(productService.findProductsByCustomSearch(
                 name, category, minPrice, maxPrice, manufacturer, stock, minStock, maxStock, active
@@ -88,18 +89,18 @@ public class ProductRestController {
     }
 
     @PutMapping("/active/{id}")
-    ResponseEntity<Boolean> activeProduct(@PathVariable Long id) {
+    ResponseEntity<Boolean> activeProduct(@PathVariable Long id) throws BadRequestException {
         return ResponseEntity.ok(productService.activateProductById(id));
     }
 
     @PutMapping("/disable/{id}")
-    ResponseEntity<Boolean> disableProduct(@PathVariable Long id) {
+    ResponseEntity<Boolean> disableProduct(@PathVariable Long id) throws BadRequestException {
         return ResponseEntity.ok(productService.disableProductById(id));
     }
 
     @GetMapping("/roles")
-    public ResponseEntity<?> getRoles() {
-        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+    public ResponseEntity<List<String>> getRoles() {
+        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(role -> role.getAuthority()).toList());
     }
 
 }

@@ -25,7 +25,7 @@ public class CategoryServicePort implements CategoryUseCases {
     public CategoryModel updateCategory(CategoryModel categoryModel, Long categoryId) {
         if (categoryModel.getId() == null) categoryModel.setId(categoryId);
         if (!categoryModel.getId().equals(categoryId))
-            throw new RuntimeException("The REST category id does not match the BODY category id");
+            throw new IllegalArgumentException("The REST category id does not match the BODY category id");
         CategoryModel categoryFromEntity = findCategoryById(categoryId);
         categoryFromEntity.setName(categoryModel.getName());
         categoryFromEntity.setDescription(categoryModel.getDescription());
