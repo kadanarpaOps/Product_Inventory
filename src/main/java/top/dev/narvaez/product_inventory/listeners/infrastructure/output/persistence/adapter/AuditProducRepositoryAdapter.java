@@ -24,6 +24,7 @@ public class AuditProducRepositoryAdapter implements AuditProductRepositoryPort 
 
     @Override
     public List<AuditProductModel> selectAll() {
+        List<AuditProductModel> list = auditRepository.findAll().stream().map(mapper::toModel).toList();
         return auditRepository.findAll().stream().map(mapper::toModel).toList();
     }
 
