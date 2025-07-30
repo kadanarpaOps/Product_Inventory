@@ -3,7 +3,7 @@ package top.dev.narvaez.product_inventory.products.application.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import top.dev.narvaez.product_inventory.listeners.application.service.AuditProductService;
+import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
@@ -11,7 +11,6 @@ import top.dev.narvaez.product_inventory.common.application.util.ProvisionalCons
 import top.dev.narvaez.product_inventory.products.domain.ports.in.StockSuitability;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.CategoryRepositoryPort;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.ProductRepositoryPort;
-import top.dev.narvaez.product_inventory.users.application.service.UserServicePort;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,9 +23,7 @@ public class ProductServicePort implements ProductUseCases {
 
     private final CategoryRepositoryPort categoryRepository;
 
-    private final UserServicePort userService;
-
-    private final AuditProductService auditService;
+    private final AuditProductUseCases auditService;
 
     @Override
     public ProductModel saveProduct(ProductModel productModel) {
@@ -48,8 +45,7 @@ public class ProductServicePort implements ProductUseCases {
         verifyValidStock(productModel);
 
         mapProducts(productModel, productFromEntity);
-        String username = userService.getAuthhenticatedUser();
-        auditService.setAuditUserSession(username == null ? ProvisionalConstants.AUDIT_USER : username);
+        auditService.setAuditUserSession();
         return productRepository.saveProduct(productFromEntity);
     }
 

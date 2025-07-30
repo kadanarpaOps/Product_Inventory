@@ -4,13 +4,13 @@ import jakarta.persistence.PostPersist;
 import jakarta.persistence.PreRemove;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import top.dev.narvaez.product_inventory.common.application.util.ProvisionalConstants;
-import top.dev.narvaez.product_inventory.listeners.infrastructure.output.persistence.entity.AuditProductEntity;
+import top.dev.narvaez.product_inventory.listeners.domain.model.AuditProductModel;
+import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
+import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
-import top.dev.narvaez.product_inventory.listeners.infrastructure.output.persistence.repository.JpaAuditProductRepository;
-import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.repository.JpaProductRepository;
+import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.mapper.ProductPersistenceMapper;
+import top.dev.narvaez.product_inventory.users.application.service.UserService;
 
 import java.time.LocalDateTime;
 
@@ -18,39 +18,38 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor(onConstructor = @__(@Lazy))
 public class AuditProductListener {
 
-    private final JpaAuditProductRepository auditProductRepo;
-    private final JpaProductRepository productRepo;
+    private final AuditProductUseCases auditProductService;
+
+    private final ProductPersistenceMapper mapper;
+
+    private final UserService userService;
 
     @PostPersist
     private void prePersist(ProductEntity productEntity) {
-        AuditProductEntity auditProductEntity = fillDataIn(productEntity);
-        auditProductEntity.setOperation("INSERT");
-        this.auditProductRepo.save(auditProductEntity);
+        AuditProductModel auditProduct = fillDataIn(productEntity);
+        auditProduct.setOperation("INSERT");
+        this.auditProductService.saveAuditProduct(auditProduct);
     }
 
     @PreRemove
     private void preRemove(ProductEntity productEntity) {
-        AuditProductEntity auditProductEntity = fillDataIn(productEntity);
-        auditProductEntity.setOperation("DELETE");
-        this.auditProductRepo.delete(auditProductEntity);
+        AuditProductModel auditProduct = fillDataIn(productEntity);
+        auditProduct.setOperation("DELETE");
+        this.auditProductService.saveAuditProduct(auditProduct);
     }
 
-    private AuditProductEntity fillDataIn(ProductEntity productEntity) {
-        AuditProductEntity audit = AuditProductEntity.builder()
-                .productId(productEntity)
-                .newName(productEntity.getName())
-                .newDescription(productEntity.getDescription())
-                .newPrice(productEntity.getPrice())
-                .newStock(productEntity.getStock())
-                .auditUser(getCurrentUser())
+    private AuditProductModel fillDataIn(ProductEntity productEntity) {
+        ProductModel productModel = mapper.toModel(productEntity);
+        AuditProductModel audit = AuditProductModel.builder()
+                .productId(productModel)
+                .newName(productModel.getName())
+                .newDescription(productModel.getDescription())
+                .newPrice(productModel.getPrice())
+                .newStock(productModel.getStock())
+                .auditUser(userService.getAuthenticatedUser())
                 .auditDate(LocalDateTime.now())
                 .build();
         return audit;
-    }
-
-    private String getCurrentUser() {
-        return SecurityContextHolder.getContext().getAuthentication() == null ?
-                ProvisionalConstants.AUDIT_USER : SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
 }

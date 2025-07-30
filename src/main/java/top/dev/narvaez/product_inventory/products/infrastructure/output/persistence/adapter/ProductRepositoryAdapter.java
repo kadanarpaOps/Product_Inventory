@@ -23,7 +23,6 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public ProductModel saveProduct(ProductModel product) {
-        ProductEntity productEntity = mapper.toEntity(product);
         return mapper.toModel(productRepository.save(mapper.toEntity(product)));
     }
 
