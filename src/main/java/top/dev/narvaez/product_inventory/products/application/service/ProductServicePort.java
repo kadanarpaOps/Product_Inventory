@@ -3,6 +3,7 @@ package top.dev.narvaez.product_inventory.products.application.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
@@ -21,6 +22,8 @@ public class ProductServicePort implements ProductUseCases {
     private final ProductRepositoryPort productRepository;
 
     private final CategoryRepositoryPort categoryRepository;
+
+    private final AuditProductUseCases auditService;
 
     @Override
     public ProductModel saveProduct(ProductModel productModel) {
@@ -42,6 +45,7 @@ public class ProductServicePort implements ProductUseCases {
         verifyValidStock(productModel);
 
         mapProducts(productModel, productFromEntity);
+        auditService.setAuditUpdateParams();
         return productRepository.saveProduct(productFromEntity);
     }
 
@@ -153,7 +157,6 @@ public class ProductServicePort implements ProductUseCases {
         productFromEntity.setStock(productModel.getStock());
         productFromEntity.setMinStock(productModel.getMinStock());
         productFromEntity.setMaxStock(productModel.getMaxStock());
-        productFromEntity.setActive(productModel.isActive());
     }
 
     private StockSuitability compareStocks(ProductModel toVerifyProduct) {
