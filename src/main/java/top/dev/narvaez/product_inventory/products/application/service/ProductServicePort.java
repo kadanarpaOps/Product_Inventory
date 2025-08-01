@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
+import top.dev.narvaez.product_inventory.products.domain.ports.in.CategoryUseCases;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
 import top.dev.narvaez.product_inventory.common.application.util.ProvisionalConstants;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.StockSuitability;
-import top.dev.narvaez.product_inventory.products.domain.ports.out.CategoryRepositoryPort;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.ProductRepositoryPort;
 
 import java.math.BigDecimal;
@@ -22,7 +22,7 @@ public class ProductServicePort implements ProductUseCases {
 
     private final ProductRepositoryPort productRepository;
 
-    private final CategoryRepositoryPort categoryRepository;
+    private final CategoryUseCases categoryService;
 
     private final AuditProductUseCases auditService;
 
@@ -128,8 +128,8 @@ public class ProductServicePort implements ProductUseCases {
 
     private void fillNullValuesToCreate(ProductModel productModel) {
         if (productModel.getCategory() == null)
-            productModel.setCategory(categoryRepository.selectByName(ProductCategory.UNDEFINED).orElseThrow(EntityNotFoundException::new));
-        else  productModel.setCategory(categoryRepository.selectByName(ProductCategory.valueOf(productModel.getCategory().getName().name())).get());
+            productModel.setCategory(categoryService.findCategoryByName(ProductCategory.UNDEFINED.name()));
+        else  productModel.setCategory(categoryService.findCategoryByName(productModel.getCategory().getName().name()));
         if (productModel.getStock() == null) productModel.setStock(ProvisionalConstants.MIN_STOCK);
         if (productModel.getMinStock() == null) productModel.setMinStock(ProvisionalConstants.MIN_STOCK);
         if (productModel.getMaxStock() == null) productModel.setMaxStock(ProvisionalConstants.MAX_STOCK);
@@ -152,7 +152,7 @@ public class ProductServicePort implements ProductUseCases {
         productFromEntity.setName(productModel.getName());
         productFromEntity.setDescription(productModel.getDescription());
         productFromEntity.setCategory(
-                categoryRepository.selectByName(productModel.getCategory().getName()).get());
+                categoryService.findCategoryByName(productModel.getCategory().getName().name()));
         productFromEntity.setPrice(productModel.getPrice());
         productFromEntity.setManufacturer(productModel.getManufacturer());
         productFromEntity.setStock(productModel.getStock());

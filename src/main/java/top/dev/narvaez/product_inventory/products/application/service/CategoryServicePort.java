@@ -41,7 +41,7 @@ public class CategoryServicePort implements CategoryUseCases {
     @Override
     public CategoryModel findCategoryByName(String name) {
         return categoryRepository.selectByName(ProductCategory.valueOf(name))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
