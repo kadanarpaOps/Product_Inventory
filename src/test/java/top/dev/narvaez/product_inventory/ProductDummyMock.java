@@ -7,6 +7,7 @@ import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 public class ProductDummyMock {
 
 
@@ -20,11 +21,15 @@ public class ProductDummyMock {
         return createCategoryModel(12L, ProductCategory.ELECTRONICS, "electronics");
     }
 
+    public CategoryModel mapUndefinedCategoryModel() {
+        return createCategoryModel(15L, ProductCategory.UNDEFINED, "undefined");
+    }
+
     public CategoryModel createCategoryModel(Long id, ProductCategory name, String description) {
         return CategoryModel.builder().id(id).name(name).description(description).build();
     }
 
-    public ProductModel mapProductModel() {
+    public ProductModel mapNullValuesProductModel() {
         return createProductModel(
                 null,
                 "Lenovo",
@@ -36,6 +41,20 @@ public class ProductDummyMock {
                 null,
                 null,
                 false
+        );
+    }
+
+    public ProductModel mapNotNullValuesProductModel() {
+        return createProductModel(1L,
+                "Strawberries",
+                "Fruit",
+                mapCategoryModel(),
+                BigDecimal.valueOf(0),
+                "El Fruver",
+                20,
+                5,
+                25,
+                true
         );
     }
 

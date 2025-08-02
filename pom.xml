@@ -133,6 +133,9 @@
                         <configuration>
                             <!--suppress UnresolvedMavenProperty -->
                             <argLine>${surefireArgLine}</argLine>
+                            <excludes>
+                                <exclude>src/main/java/top/dev/narvaez/product_inventory/common/**</exclude>
+                            </excludes>
                         </configuration>
                     </plugin>
                     <plugin>
