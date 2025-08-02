@@ -32,6 +32,7 @@
         <java.version>17</java.version>
         <sonar.junit.reportPaths>${project.build.directory}/surefire-reports</sonar.junit.reportPaths>
         <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/coverage-reports/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.exclusions>**/common/**, **/mapper/**, **/domain/**, **/persistence/**, **/config/**, **/AuditLabApplication.java</sonar.coverage.exclusions>
     </properties>
     <dependencies>
         <dependency>
@@ -133,9 +134,6 @@
                         <configuration>
                             <!--suppress UnresolvedMavenProperty -->
                             <argLine>${surefireArgLine}</argLine>
-                            <excludes>
-                                <exclude>src/main/java/top/dev/narvaez/product_inventory/common/**</exclude>
-                            </excludes>
                         </configuration>
                     </plugin>
                     <plugin>

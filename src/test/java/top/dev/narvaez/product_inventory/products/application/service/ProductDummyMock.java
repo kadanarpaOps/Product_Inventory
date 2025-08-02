@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory;
+package top.dev.narvaez.product_inventory.products.application.service;
 
 import top.dev.narvaez.product_inventory.products.domain.models.CategoryModel;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
