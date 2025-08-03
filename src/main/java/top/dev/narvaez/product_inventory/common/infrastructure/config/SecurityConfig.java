@@ -57,7 +57,7 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user = User.withUsername("daisy")
-                .password("2904")
+                .password("$2a$10$C4BhFt17dpw2SP5xToldo.S.unnne35EtbzW.0shY00EU6lVuXFyy")
                 .roles("ADMIN")
                 .build();
 

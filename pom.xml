@@ -31,8 +31,11 @@
     <properties>
         <java.version>17</java.version>
         <sonar.junit.reportPaths>${project.build.directory}/surefire-reports</sonar.junit.reportPaths>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/coverage-reports/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.coverage.exclusions>**/common/**, **/mapper/**, **/domain/**, **/persistence/**, **/config/**, **/AuditLabApplication.java</sonar.coverage.exclusions>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/coverage-reports/jacoco-ut/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.exclusions>**/common/**, **/mapper/**, **/domain/**, **/persistence/**, **/config/**,
+            **/AuditLabApplication.java
+        </sonar.coverage.exclusions>
     </properties>
     <dependencies>
         <dependency>
@@ -87,6 +90,12 @@
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>3.2.0</version>
+        </dependency>
+        <!-- JasperReports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.20.0</version>
         </dependency>
     </dependencies>
 
@@ -164,7 +173,8 @@
                                 </goals>
                                 <configuration>
                                     <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
-                                    <outputDirectory>${project.build.directory}/coverage-reports/jacoco-ut</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/coverage-reports/jacoco-ut
+                                    </outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
