@@ -9,7 +9,7 @@ import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.CategoryUseCases;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
-import top.dev.narvaez.product_inventory.common.application.util.ProvisionalConstants;
+import top.dev.narvaez.product_inventory.common.application.util.Constants;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.StockSuitability;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.ProductRepositoryPort;
 
@@ -130,10 +130,10 @@ public class ProductServicePort implements ProductUseCases {
         if (productModel.getCategory() == null)
             productModel.setCategory(categoryService.findCategoryByName(ProductCategory.UNDEFINED.name()));
         else  productModel.setCategory(categoryService.findCategoryByName(productModel.getCategory().getName().name()));
-        if (productModel.getStock() == null) productModel.setStock(ProvisionalConstants.MIN_STOCK);
-        if (productModel.getMinStock() == null) productModel.setMinStock(ProvisionalConstants.MIN_STOCK);
-        if (productModel.getMaxStock() == null) productModel.setMaxStock(ProvisionalConstants.MAX_STOCK);
-        if (productModel.getManufacturer() == null) productModel.setManufacturer(ProvisionalConstants.MANUFACTURER);
+        if (productModel.getStock() == null) productModel.setStock(Constants.MIN_STOCK);
+        if (productModel.getMinStock() == null) productModel.setMinStock(Constants.MIN_STOCK);
+        if (productModel.getMaxStock() == null) productModel.setMaxStock(Constants.MAX_STOCK);
+        if (productModel.getManufacturer() == null) productModel.setManufacturer(Constants.MANUFACTURER);
     }
 
     private void fillNullValuesToUpdate(ProductModel productModel, ProductModel productFromEntity) {

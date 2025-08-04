@@ -7,55 +7,31 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.util.JRSaver;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
-import net.sf.jasperreports.export.SimplePdfReportConfiguration;
 import org.springframework.stereotype.Service;
+import top.dev.narvaez.product_inventory.common.application.util.Constants;
 import top.dev.narvaez.product_inventory.reports.domain.ports.in.ReportUseCases;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReportServicePort implements ReportUseCases {
 
-    public byte[] exportListReport(String reportFormat, List<?> modelsList) throws JRException {
+    public byte[] exportListReport(List<?> modelsList, String reportFile, String reportFormat) throws JRException {
 
-        InputStream modelReportStream = getClass().getResourceAsStream("classpath:templates/report/ProductList.jrxml");
+        InputStream modelReportStream = getClass().getResourceAsStream(Constants.REPORT_PATH.concat(reportFile));
         JasperReport jasperReport = JasperCompileManager.compileReport(modelReportStream);
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(modelsList);
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
+        Map<String, Object> params = new HashMap<>();
+        params.put("imagesPath", Constants.IMG_PATH);
 
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
 
-        if (reportFormat.equalsIgnoreCase("html")) {
-            return null;
-        } else if (reportFormat.equalsIgnoreCase("pdf")) {
-            JRPdfExporter exporter = new JRPdfExporter();
-            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outStream));
-
-            SimplePdfReportConfiguration reportConfig = new SimplePdfReportConfiguration();
-            reportConfig.setSizePageToContent(true);
-            reportConfig.setForceLineBreakPolicy(false);
-
-            SimplePdfExporterConfiguration exportConfig = new SimplePdfExporterConfiguration();
-            exportConfig.setMetadataAuthor("daisy");
-            exportConfig.setEncrypted(true);
-            exportConfig.setAllowedPermissionsHint("PRINTING");
-
-            exporter.setConfiguration(reportConfig);
-            exporter.setConfiguration(exportConfig);
-
-            exporter.exportReport();
-
-            return outStream.toByteArray();
+        if (reportFormat.equalsIgnoreCase(Constants.FORMAT_PDF)) {
+            return JasperExportManager.exportReportToPdf(jasperPrint);
         }
 
         return null;

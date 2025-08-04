@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import top.dev.narvaez.product_inventory.common.application.util.ProvisionalConstants;
+import top.dev.narvaez.product_inventory.common.application.util.Constants;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
@@ -88,7 +88,7 @@ class ProductServicePortTest {
         assertFalse(savedProduct.isActive());
         assertEquals(savedProduct.getName(), productModel.getName());
         assertEquals(ProductCategory.UNDEFINED, savedProduct.getCategory().getName());
-        assertEquals(ProvisionalConstants.MIN_STOCK, savedProduct.getStock());
+        assertEquals(Constants.MIN_STOCK, savedProduct.getStock());
 
         productService.saveProduct(productModel);
 

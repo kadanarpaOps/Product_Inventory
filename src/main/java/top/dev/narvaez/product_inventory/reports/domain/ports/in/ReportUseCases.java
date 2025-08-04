@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ReportUseCases {
 
-    public byte[] exportListReport(String reportFormat, List<?> modelsList) throws JRException;
+    public byte[] exportListReport( List<?> modelsList, String reportFile, String reportFormat) throws JRException;
 
 }
