@@ -100,7 +100,7 @@
                     <expression><![CDATA[$F{category}.getName().name()]]></expression>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
                 </element>
-                <element kind="textField" uuid="fd4b2076-72dd-48a0-bf17-e6a817ff4602" stretchType="ContainerHeight" x="410" y="0" width="91" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
+                <element kind="textField" uuid="fd4b2076-72dd-48a0-bf17-e6a817ff4602" stretchType="ContainerHeight" x="410" y="0" width="90" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
                     <expression><![CDATA[$F{price}]]></expression>
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
                 </element>
