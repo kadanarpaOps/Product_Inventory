@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.dev.narvaez.product_inventory.common.application.util.Constants;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
@@ -28,19 +29,31 @@ public class ProductReportRestController {
     private final ReportUseCases reportService;
 
     @GetMapping("/list")
-    public ResponseEntity<byte[]> generatePdfListReport() throws JRException {
+    public ResponseEntity<byte[]> generatePdfListReport(
+            @RequestParam(defaultValue = "pdf") String format
+    ) throws JRException {
         List<ProductModel> data = productService.findAllProducts();
 
-        byte[] pdfBytes = reportService.exportListReport(data, Constants.PRODUCT_LIST, Constants.FORMAT_PDF);
+        byte[] pdfBytes = reportService.exportListReport(data, Constants.PRODUCT_LIST, format);
 
-        return new ResponseEntity<>(pdfBytes, prepareHeaders(), HttpStatus.OK);
+        return new ResponseEntity<>(pdfBytes, prepareHeaders(format), HttpStatus.OK);
     }
 
-    private HttpHeaders prepareHeaders() {
+    private HttpHeaders prepareHeaders(String fileFormat) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("ddMMyyyy-HHmmss");
-        headers.setContentDispositionFormData("attachment", "ProductsList_" + LocalDateTime.now().format(format) + ".pdf");
+
+        if (fileFormat.equalsIgnoreCase(Constants.FORMAT_HTML))
+            headers.setContentType(MediaType.TEXT_HTML);
+        else if (fileFormat.equalsIgnoreCase(Constants.FORMAT_XLS))
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        else
+            headers.setContentType(MediaType.APPLICATION_PDF);
+
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("ddMMyyyy_HHmmss");
+        headers.setContentDispositionFormData("attachment", "ProductsList_" + LocalDateTime.now().format(format) + "." +
+                (fileFormat.toLowerCase() == Constants.FORMAT_HTML ? "html" :
+                        (fileFormat.toLowerCase() == Constants.FORMAT_XLS ? "xls" : "pdf")));
+
         return headers;
     }
 

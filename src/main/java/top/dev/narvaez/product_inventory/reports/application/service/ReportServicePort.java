@@ -7,10 +7,16 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.springframework.stereotype.Service;
 import top.dev.narvaez.product_inventory.common.application.util.Constants;
 import top.dev.narvaez.product_inventory.reports.domain.ports.in.ReportUseCases;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -30,11 +36,22 @@ public class ReportServicePort implements ReportUseCases {
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
 
-        if (reportFormat.equalsIgnoreCase(Constants.FORMAT_PDF)) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        if (reportFormat.equalsIgnoreCase(Constants.FORMAT_HTML)) {
+            HtmlExporter htmlExporter = new HtmlExporter();
+            htmlExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            htmlExporter.setExporterOutput(new SimpleHtmlExporterOutput(outputStream));
+            htmlExporter.exportReport();
+        } else if (reportFormat.equalsIgnoreCase(Constants.FORMAT_XLS)) {
+            JRXlsxExporter xlsExporter = new JRXlsxExporter();
+            xlsExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            xlsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+            xlsExporter.exportReport();
+        } else {
             return JasperExportManager.exportReportToPdf(jasperPrint);
         }
-
-        return null;
+        return outputStream.toByteArray();
     }
 
 }

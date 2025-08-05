@@ -15,6 +15,7 @@ public class Constants {
     // Report Constants
     public static final String FORMAT_PDF = "pdf";
     public static final String FORMAT_HTML = "html";
+    public static final String FORMAT_XLS = "xls";
     public static final String REPORT_PATH = "/templates/report/";
     public static final String IMG_PATH = "classpath:/static/images/";
 
