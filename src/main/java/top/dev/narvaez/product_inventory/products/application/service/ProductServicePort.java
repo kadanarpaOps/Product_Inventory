@@ -1,17 +1,23 @@
 package top.dev.narvaez.product_inventory.products.application.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
+import top.dev.narvaez.product_inventory.common.model.exceptions.EntityNotFoundException;
+import top.dev.narvaez.product_inventory.common.model.exceptions.MismatchedModelIdException;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
+import top.dev.narvaez.product_inventory.products.domain.exceptions.ProductAlreadyActivatedException;
+import top.dev.narvaez.product_inventory.products.domain.exceptions.ProductAlreadyDisabledException;
+import top.dev.narvaez.product_inventory.products.domain.exceptions.StockAboveMaximumException;
+import top.dev.narvaez.product_inventory.products.domain.exceptions.StockBelowMinimumException;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.CategoryUseCases;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
-import top.dev.narvaez.product_inventory.common.application.util.ProvisionalConstants;
+import top.dev.narvaez.product_inventory.common.application.util.Constants;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.StockSuitability;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.ProductRepositoryPort;
+import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -38,7 +44,7 @@ public class ProductServicePort implements ProductUseCases {
     public ProductModel updateProduct(ProductModel productModel, Long productId) {
         if (productModel.getId() == null) productModel.setId(productId);
         if (!productModel.getId().equals(productId))
-            throw new IllegalArgumentException("The REST product id does not match the BODY product id");
+            throw new MismatchedModelIdException(productId, productModel.getId(), ProductModel.class.getCanonicalName());
 
         ProductModel productFromEntity = findAnyProductById(productId);
         fillNullValuesToUpdate(productModel, productFromEntity);
@@ -53,25 +59,25 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public ProductModel findAvailableProductById(Long id) {
         return productRepository.selectAvailableById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getCanonicalName(), Constants.ID, id.toString()));
     }
 
     @Override
     public ProductModel findAnyProductById(Long id) {
         return productRepository.selectById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getCanonicalName(), Constants.ID, id.toString()));
     }
 
     @Override
     public ProductModel findAvailableProductByName(String name) {
         return productRepository.selectAvailableByName(name)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getCanonicalName(), Constants.NAME, name));
     }
 
     @Override
     public ProductModel findAnyProductByName(String name) {
         return productRepository.selectByName(name)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getCanonicalName(), Constants.NAME, name));
     }
 
     @Override
@@ -99,7 +105,7 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public boolean disableProductById(Long id) throws BadRequestException {
         ProductModel toDisableProduct = this.findAnyProductById(id);
-        if (!toDisableProduct.isActive()) throw new BadRequestException("Product already disabled");
+        if (!toDisableProduct.isActive()) throw new ProductAlreadyDisabledException();
         toDisableProduct.setActive(false);
         productRepository.saveProduct(toDisableProduct);
         return true;
@@ -108,7 +114,7 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public boolean activateProductById(Long id) throws BadRequestException {
         ProductModel toActivateProduct = this.findAnyProductById(id);
-        if (toActivateProduct.isActive()) throw new BadRequestException("Product already active");
+        if (toActivateProduct.isActive()) throw new ProductAlreadyActivatedException();
         toActivateProduct.setActive(true);
         productRepository.saveProduct(toActivateProduct);
         return true;
@@ -121,8 +127,8 @@ public class ProductServicePort implements ProductUseCases {
 
     public void verifyValidStock(ProductModel productModel) {
         switch (verifyStockSuitability(productModel)) {
-            case LOWER_THAN_MIN -> throw new IllegalArgumentException("Lower than minimum stock suitability");
-            case GREATER_THAN_MAX -> throw new IllegalArgumentException("Greater than maximum stock suitability");
+            case LOWER_THAN_MIN -> throw new StockBelowMinimumException(productModel.getStock(), productModel.getMinStock());
+            case GREATER_THAN_MAX -> throw new StockAboveMaximumException(productModel.getStock(), productModel.getMaxStock());
         }
     }
 
@@ -130,10 +136,10 @@ public class ProductServicePort implements ProductUseCases {
         if (productModel.getCategory() == null)
             productModel.setCategory(categoryService.findCategoryByName(ProductCategory.UNDEFINED.name()));
         else  productModel.setCategory(categoryService.findCategoryByName(productModel.getCategory().getName().name()));
-        if (productModel.getStock() == null) productModel.setStock(ProvisionalConstants.MIN_STOCK);
-        if (productModel.getMinStock() == null) productModel.setMinStock(ProvisionalConstants.MIN_STOCK);
-        if (productModel.getMaxStock() == null) productModel.setMaxStock(ProvisionalConstants.MAX_STOCK);
-        if (productModel.getManufacturer() == null) productModel.setManufacturer(ProvisionalConstants.MANUFACTURER);
+        if (productModel.getStock() == null) productModel.setStock(Constants.MIN_STOCK);
+        if (productModel.getMinStock() == null) productModel.setMinStock(Constants.MIN_STOCK);
+        if (productModel.getMaxStock() == null) productModel.setMaxStock(Constants.MAX_STOCK);
+        if (productModel.getManufacturer() == null) productModel.setManufacturer(Constants.MANUFACTURER);
     }
 
     private void fillNullValuesToUpdate(ProductModel productModel, ProductModel productFromEntity) {
