@@ -14,7 +14,8 @@ public class Constants {
 
     // Message Constants
     public static final String ENTITY_NOT_FOUND_EXCEPTION = "Not query result for entity %s with %s %s";
-    public static final String MISMATCH_MODEL_ID_EXCEPTION = "The Rest %s id %d does not match the Body %d id %d";
+    public static final String MISMATCH_MODEL_ID_EXCEPTION = "The Rest %s id %d does not match the Body %s id %d";
+    public static final String TRACE = "trace";
     public static final String ID = "ID";
     public static final String NAME = "NAME";
 

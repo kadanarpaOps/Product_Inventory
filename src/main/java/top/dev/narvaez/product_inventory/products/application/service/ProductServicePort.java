@@ -44,7 +44,7 @@ public class ProductServicePort implements ProductUseCases {
     public ProductModel updateProduct(ProductModel productModel, Long productId) {
         if (productModel.getId() == null) productModel.setId(productId);
         if (!productModel.getId().equals(productId))
-            throw new MismatchedModelIdException(productId, productModel.getId(), ProductModel.class.getCanonicalName());
+            throw new MismatchedModelIdException(productId, productModel.getId(), ProductModel.class.getSimpleName());
 
         ProductModel productFromEntity = findAnyProductById(productId);
         fillNullValuesToUpdate(productModel, productFromEntity);
@@ -59,25 +59,25 @@ public class ProductServicePort implements ProductUseCases {
     @Override
     public ProductModel findAvailableProductById(Long id) {
         return productRepository.selectAvailableById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getCanonicalName(), Constants.ID, id.toString()));
+                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getSimpleName(), Constants.ID, id.toString()));
     }
 
     @Override
     public ProductModel findAnyProductById(Long id) {
         return productRepository.selectById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getCanonicalName(), Constants.ID, id.toString()));
+                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getSimpleName(), Constants.ID, id.toString()));
     }
 
     @Override
     public ProductModel findAvailableProductByName(String name) {
         return productRepository.selectAvailableByName(name)
-                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getCanonicalName(), Constants.NAME, name));
+                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getSimpleName(), Constants.NAME, name));
     }
 
     @Override
     public ProductModel findAnyProductByName(String name) {
         return productRepository.selectByName(name)
-                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getCanonicalName(), Constants.NAME, name));
+                .orElseThrow(() -> new EntityNotFoundException(ProductEntity.class.getSimpleName(), Constants.NAME, name));
     }
 
     @Override
