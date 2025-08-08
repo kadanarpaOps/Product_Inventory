@@ -23,12 +23,10 @@ public class ProductRestMapper extends MapperStructure {
 
         Converter<String, CategoryModel> setCategoryModelName = c -> {
             if (c.getSource() == null) return null;
-            return new CategoryModel(null, ProductCategory.valueOf(c.getSource().toString()), null);
+            return new CategoryModel(null, ProductCategory.valueOf(c.getSource()), null);
         };
 
-        Converter<CategoryModel, String> setCategoryDto = c -> {
-            return c.getSource().getName().name();
-        };
+        Converter<CategoryModel, String> setCategoryDto = c -> c.getSource().getName().name();
 
         mapper.typeMap(ProductDTO.class, ProductModel.class)
                 .addMappings(m -> m.using(setCategoryModelName).map(

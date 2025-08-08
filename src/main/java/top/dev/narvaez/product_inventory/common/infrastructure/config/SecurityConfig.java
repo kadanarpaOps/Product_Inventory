@@ -13,10 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import top.dev.narvaez.product_inventory.common.application.util.Constants;
 
 @Configuration
 @EnableWebSecurity
@@ -30,9 +31,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(request -> {
-                            request.anyRequest().permitAll();
-                        }
+                .authorizeHttpRequests(request ->
+                            request.anyRequest().permitAll()
                 );
 
         return http.build();
@@ -44,22 +44,22 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() throws Exception {
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService());
-        provider.setPasswordEncoder(noOpPasswordEncoder());
+        provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
 
     @Bean
-    public PasswordEncoder noOpPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user = User.withUsername("daisy")
-                .password("2904")
+                .password(passwordEncoder().encode(Constants.ADMIN_PASSWORD))
                 .roles("ADMIN")
                 .build();
 

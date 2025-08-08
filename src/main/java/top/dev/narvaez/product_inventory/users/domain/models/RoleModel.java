@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory.products.domain.models;
+package top.dev.narvaez.product_inventory.users.domain.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,13 +8,12 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @Setter
-public class CategoryModel {
+@Builder
+public class RoleModel {
 
-    private Long id;
-    private ProductCategory name;
-    private String description;
+    Long id;
+    RoleName name;
 
 }

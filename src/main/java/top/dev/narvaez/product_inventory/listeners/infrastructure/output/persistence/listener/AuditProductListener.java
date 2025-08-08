@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory.listeners.application.listener;
+package top.dev.narvaez.product_inventory.listeners.infrastructure.output.persistence.listener;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PreRemove;
@@ -41,7 +41,7 @@ public class AuditProductListener {
 
     private AuditProductModel fillDataIn(ProductEntity productEntity) {
         ProductModel productModel = mapper.toModel(productEntity);
-        AuditProductModel audit = AuditProductModel.builder()
+        return AuditProductModel.builder()
                 .productId(productModel)
                 .newName(productModel.getName())
                 .newDescription(productModel.getDescription())
@@ -50,7 +50,6 @@ public class AuditProductListener {
                 .auditUser(userService.getAuthenticatedUser())
                 .auditDate(LocalDateTime.now())
                 .build();
-        return audit;
     }
 
 }

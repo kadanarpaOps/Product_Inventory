@@ -40,7 +40,6 @@ public class CategoryRepositoryAdapter implements CategoryRepositoryPort {
     }
 
     public boolean verifyRepositoryReady() {
-        if (categoryRepository.count() == 0) return true;
-        return false;
+        return categoryRepository.count() == 0;
     }
 }

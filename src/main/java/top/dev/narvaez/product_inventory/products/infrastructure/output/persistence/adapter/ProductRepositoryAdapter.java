@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.ProductRepositoryPort;
-import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.mapper.ProductPersistenceMapper;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.repository.JpaProductRepository;
 
@@ -68,8 +67,7 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     }
 
     public boolean verifyRepositoryReady() {
-        if (productRepository.count() == 0) return true;
-        return false;
+        return productRepository.count() == 0;
     }
 
 }
