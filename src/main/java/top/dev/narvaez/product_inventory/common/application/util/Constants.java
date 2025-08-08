@@ -12,12 +12,16 @@ public class Constants {
     public static final String MANUFACTURER = "MIMI";
     public static final String AUDIT_USER = "SYSTEM";
 
+    public static final String ADMIN_PASSWORD = "200548";
+
     // Message Constants
     public static final String ENTITY_NOT_FOUND_EXCEPTION = "Not query result for entity %s with %s %s";
+    public static final String ENTITY_ALREADY_EXISTS_WITH_DATA = "Entity %s already exists with %s %s";
     public static final String MISMATCH_MODEL_ID_EXCEPTION = "The Rest %s id %d does not match the Body %s id %d";
     public static final String TRACE = "trace";
     public static final String ID = "ID";
     public static final String NAME = "NAME";
+
 
     public static final String STOCK_BELOW_MINIMUM_EXCEPTION = "Stock %d is below the minimum limit %d";
     public static final String STOCK_ABOVE_MAXIMUM_EXCEPTION = "Stock %d is above the maximum limit %d";
