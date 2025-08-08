@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory.listeners.application.listener;
+package top.dev.narvaez.product_inventory.listeners.infrastructure.output.persistence.listener;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PreRemove;

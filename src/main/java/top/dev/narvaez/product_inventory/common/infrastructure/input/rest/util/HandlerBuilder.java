@@ -1,5 +1,6 @@
 package top.dev.narvaez.product_inventory.common.infrastructure.input.rest.util;
 
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import top.dev.narvaez.product_inventory.common.application.util.Constants;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@NoArgsConstructor
 public class HandlerBuilder {
 
     public static ResponseEntity<ErrorResponse> buildResponse(HttpStatus status, RuntimeException ex) {
