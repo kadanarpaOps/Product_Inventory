@@ -1,7 +1,6 @@
-package top.dev.narvaez.product_inventory.users.domain.models;
+package top.dev.narvaez.product_inventory.users.infrastructure.input.rest.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
-public class RoleModel {
+public class PutUserDTO extends ReqUserDTO {
 
-    Long id;
-    RoleName name;
+    private Long id;
 
 }

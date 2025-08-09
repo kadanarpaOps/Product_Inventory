@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Component
-public class CategoryRepositoryAdapter implements CategoryRepositoryPort {
+public class CategoryAdapterPort implements CategoryRepositoryPort {
 
     private final JpaCategoryRepository categoryRepository;
 

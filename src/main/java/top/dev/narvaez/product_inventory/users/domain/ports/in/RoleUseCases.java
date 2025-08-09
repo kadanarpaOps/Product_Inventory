@@ -9,8 +9,6 @@ public interface RoleUseCases {
 
     RoleModel saveRole(RoleModel role);
 
-    RoleModel updateRole(RoleModel role);
-
     RoleModel findAnyRoleById(Long id);
 
     RoleModel findAnyRoleByName(RoleName name);

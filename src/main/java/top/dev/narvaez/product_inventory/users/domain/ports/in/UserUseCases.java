@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface UserUseCases {
 
-    UserModel saveUser(UserModel user);
+    UserModel saveUser(UserModel userModel);
 
-    UserModel updateUser(UserModel user);
+    UserModel updateUser(UserModel userModel, Long userId);
 
     UserModel findAnyUserById(Long id);
 
