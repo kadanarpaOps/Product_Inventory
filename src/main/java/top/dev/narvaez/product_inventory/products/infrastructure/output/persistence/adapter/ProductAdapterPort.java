@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Component
-public class ProductRepositoryAdapter implements ProductRepositoryPort {
+public class ProductAdapterPort implements ProductRepositoryPort {
 
     private final JpaProductRepository productRepository;
 

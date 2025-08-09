@@ -2,24 +2,24 @@ package top.dev.narvaez.product_inventory.products.infrastructure.config.sql;
 
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import top.dev.narvaez.product_inventory.products.domain.models.CategoryModel;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
-import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.adapter.CategoryRepositoryAdapter;
-import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.adapter.ProductRepositoryAdapter;
+import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.adapter.CategoryAdapterPort;
+import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.adapter.ProductAdapterPort;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 
 @AllArgsConstructor
-@Service
-public class DataLoader implements CommandLineRunner {
+@Component
+public class ProductDataLoader implements CommandLineRunner {
 
-    private final CategoryRepositoryAdapter categoryRepository;
+    private final CategoryAdapterPort categoryRepository;
 
-    private final ProductRepositoryAdapter productRepository;
+    private final ProductAdapterPort productRepository;
 
     private final ProductUseCases productService;
 

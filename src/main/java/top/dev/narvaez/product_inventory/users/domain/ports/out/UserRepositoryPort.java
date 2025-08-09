@@ -7,12 +7,12 @@ import java.util.Optional;
 
 public interface UserRepositoryPort {
 
-    UserModel saveProduct(UserModel product);
+    UserModel saveUser(UserModel userModel);
 
     List<UserModel> selectAll();
 
     Optional<UserModel> selectById(Long id);
 
-    Optional<UserModel> selectByUsername(String email);
+    Optional<UserModel> selectByUsername(String username);
 
 }
