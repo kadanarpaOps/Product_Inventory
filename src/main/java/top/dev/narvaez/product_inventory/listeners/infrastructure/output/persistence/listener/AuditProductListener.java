@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory.listeners.application.listener;
+package top.dev.narvaez.product_inventory.listeners.infrastructure.output.persistence.listener;
 
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PreRemove;
@@ -11,7 +11,7 @@ import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductU
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.ProductEntity;
 import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.mapper.ProductPersistenceMapper;
-import top.dev.narvaez.product_inventory.users.application.service.UserService;
+import top.dev.narvaez.product_inventory.users.application.service.users.UserAuthService;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +23,7 @@ public class AuditProductListener {
 
     private final ProductPersistenceMapper mapper;
 
-    private final UserService userService;
+    private final UserAuthService userService;
 
     @PostPersist
     private void prePersist(ProductEntity productEntity) {
@@ -47,7 +47,7 @@ public class AuditProductListener {
                 .newDescription(productModel.getDescription())
                 .newPrice(productModel.getPrice())
                 .newStock(productModel.getStock())
-                .auditUser(userService.getAuthenticatedUser())
+                .auditUser(userService.getAuditUsername())
                 .auditDate(LocalDateTime.now())
                 .build();
     }

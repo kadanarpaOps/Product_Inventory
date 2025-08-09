@@ -1,12 +1,15 @@
 package top.dev.narvaez.product_inventory.products.application.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import top.dev.narvaez.product_inventory.common.application.util.Constants;
+import top.dev.narvaez.product_inventory.common.model.exceptions.EntityNotFoundException;
+import top.dev.narvaez.product_inventory.common.model.exceptions.MismatchedModelIdException;
 import top.dev.narvaez.product_inventory.products.domain.models.CategoryModel;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.CategoryUseCases;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.CategoryRepositoryPort;
+import top.dev.narvaez.product_inventory.products.infrastructure.output.persistence.entity.CategoryEntity;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ public class CategoryServicePort implements CategoryUseCases {
     public CategoryModel updateCategory(CategoryModel categoryModel, Long categoryId) {
         if (categoryModel.getId() == null) categoryModel.setId(categoryId);
         if (!categoryModel.getId().equals(categoryId))
-            throw new IllegalArgumentException("The REST category id does not match the BODY category id");
+            throw new MismatchedModelIdException(categoryId, categoryModel.getId(), CategoryModel.class.getSimpleName());
         CategoryModel categoryFromEntity = findCategoryById(categoryId);
         categoryFromEntity.setName(categoryModel.getName());
         categoryFromEntity.setDescription(categoryModel.getDescription());
@@ -35,13 +38,13 @@ public class CategoryServicePort implements CategoryUseCases {
     @Override
     public CategoryModel findCategoryById(Long categoryId) {
         return categoryRepository.selectById(categoryId)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(CategoryEntity.class.getSimpleName(), Constants.ID, categoryId.toString()));
     }
 
     @Override
     public CategoryModel findCategoryByName(String name) {
         return categoryRepository.selectByName(ProductCategory.valueOf(name))
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(CategoryEntity.class.getSimpleName(), Constants.NAME, name));
     }
 
     @Override

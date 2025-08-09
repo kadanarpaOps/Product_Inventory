@@ -45,10 +45,6 @@ public class ProductRestMapper extends MapperStructure {
 
     }
 
-    public ProductDTO toDTO(ProductModel productModel) {
-        return mapper.map(productModel, ProductDTO.class);
-    }
-
     public UpdateProductDTO toUpdateDTO(ProductModel productModel) {
         return mapper.map(productModel, UpdateProductDTO.class);
     }
