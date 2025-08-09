@@ -23,11 +23,6 @@ public class RoleServicePort implements RoleUseCases {
     }
 
     @Override
-    public RoleModel updateRole(RoleModel role) {
-        return null;
-    }
-
-    @Override
     public RoleModel findAnyRoleById(Long id) {
         return null;
     }
