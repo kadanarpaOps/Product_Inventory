@@ -3,6 +3,7 @@ package top.dev.narvaez.product_inventory.users.infrastructure.output.persistenc
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,10 +25,10 @@ public class UserEntity {
     private String password;
     @Column(name = "USER_NAME")
     private String name;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLES",
     joinColumns = @JoinColumn(name = "USER_ID"),
     inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-    private List<RoleEntity> roles;
+    private List<RoleEntity> roles = new ArrayList<>();
 
 }

@@ -14,6 +14,7 @@ import top.dev.narvaez.product_inventory.users.domain.ports.out.UserRepositoryPo
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -33,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             roles.add(new SimpleGrantedAuthority("ROLE_" + role.getName().name()));
         });
 
-        return new User(user.getUsername(), null, roles);
+        return new User(user.getUsername(), user.getPassword(), roles);
 
     }
 
