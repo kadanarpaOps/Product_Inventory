@@ -88,6 +88,18 @@
             <artifactId>modelmapper</artifactId>
             <version>3.2.0</version>
         </dependency>
+        <!-- JasperReports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>7.0.1</version>
+        </dependency>
+        <!-- JasperReports PDF -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-pdf</artifactId>
+            <version>7.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>
