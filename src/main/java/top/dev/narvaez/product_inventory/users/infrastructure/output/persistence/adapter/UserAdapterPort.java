@@ -37,4 +37,13 @@ public class UserAdapterPort implements UserRepositoryPort {
     public Optional<UserModel> selectByUsername(String username) {
         return userRepository.findUserByUsername(username).map(mapper::toModel);
     }
+
+    public void saveList(List<UserModel> userModels) {
+        userRepository.saveAll(userModels.stream().map(mapper::toEntity).toList());
+    }
+
+    public boolean verifyRepositoryReady() {
+        return userRepository.count() == 0;
+    }
+
 }

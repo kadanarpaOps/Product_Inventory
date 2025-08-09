@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory.users.application.service;
+package top.dev.narvaez.product_inventory.users.application.service.users;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import top.dev.narvaez.product_inventory.common.application.util.Constants;
 import top.dev.narvaez.product_inventory.users.domain.exceptions.NoAuthenticatedUserException;
-import top.dev.narvaez.product_inventory.users.domain.models.RoleModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +39,11 @@ public class UserAuthService {
 
         throw new NoAuthenticatedUserException();
 
+    }
+
+    public String getAuditUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth == null ? Constants.AUDIT_USER : auth.getName();
     }
 
 }

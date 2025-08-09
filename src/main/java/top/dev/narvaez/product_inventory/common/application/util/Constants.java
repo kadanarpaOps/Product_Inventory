@@ -1,5 +1,6 @@
 package top.dev.narvaez.product_inventory.common.application.util;
 
+import top.dev.narvaez.product_inventory.users.infrastructure.output.persistence.entity.RoleEntity;
 import top.dev.narvaez.product_inventory.users.infrastructure.output.persistence.entity.UserEntity;
 
 public class Constants {
@@ -26,6 +27,7 @@ public class Constants {
     public static final String USERNAME = "USERNAME";
 
     public static final String USER_ENTITY = UserEntity.class.getSimpleName();
+    public static final String ROLE_ENTITY = RoleEntity.class.getSimpleName();
 
     public static final String STOCK_BELOW_MINIMUM_EXCEPTION = "Stock %d is below the minimum limit %d";
     public static final String STOCK_ABOVE_MAXIMUM_EXCEPTION = "Stock %d is above the maximum limit %d";

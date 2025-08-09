@@ -8,7 +8,7 @@ import top.dev.narvaez.product_inventory.listeners.domain.model.AuditProductMode
 import top.dev.narvaez.product_inventory.listeners.domain.model.OperationType;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.out.AuditProductRepositoryPort;
-import top.dev.narvaez.product_inventory.users.application.service.UserAuthService;
+import top.dev.narvaez.product_inventory.users.application.service.users.UserAuthService;
 
 import java.time.LocalDateTime;
 import java.util.List;

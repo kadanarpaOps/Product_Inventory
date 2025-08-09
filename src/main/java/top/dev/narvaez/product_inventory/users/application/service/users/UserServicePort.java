@@ -1,4 +1,4 @@
-package top.dev.narvaez.product_inventory.users.application.service;
+package top.dev.narvaez.product_inventory.users.application.service.users;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

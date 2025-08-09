@@ -27,11 +27,12 @@ public class ProductDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (categoryRepository.verifyRepositoryReady()) {
             Arrays.stream(ProductCategory.values()).forEach(category -> {
-                if (!categoryRepository.selectByName(category).isPresent()) {
+                if (categoryRepository.selectByName(category).isEmpty()) {
                     categoryRepository.saveCategory(new CategoryModel(null, category, category.name().toLowerCase()));
                 }
             });
         }
+
         if (productRepository.verifyRepositoryReady()) {
             productService.saveProduct(new ProductModel(
                     null,

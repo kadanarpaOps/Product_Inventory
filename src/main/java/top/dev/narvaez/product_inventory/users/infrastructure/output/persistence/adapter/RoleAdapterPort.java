@@ -38,4 +38,9 @@ public class RoleAdapterPort implements RoleRepositoryPort {
     public Optional<RoleModel> selectByName(RoleName roleName) {
         return roleRepository.findRoleByName(roleName.name()).map(mapper::toModel);
     }
+
+    public boolean verifyRepositoryReady() {
+        return roleRepository.count() == 0;
+    }
+
 }
