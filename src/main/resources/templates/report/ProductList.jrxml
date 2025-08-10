@@ -1,0 +1,164 @@
+<!-- Created with Jaspersoft Studio version 7.0.1.final using JasperReports Library version 7.0.1-573496633c2b4074e32f433154b543003f7d2498  -->
+<jasperReport name="ProductList" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8274554d-c64a-4d6f-9447-6c7ba388a214">
+    <style name="Title" forecolor="#E6E6FA" hTextAlign="Center" vTextAlign="Middle" hImageAlign="Center" vImageAlign="Middle" blankWhenNull="true" fontName="Times New Roman" pdfEncoding="Identity-H" pdfFontName="static/fonts/times.ttf" fontSize="50.0">
+        <pen lineColor="#B2A4DF"/>
+    </style>
+    <style name="Headers" mode="Opaque" forecolor="#7E749E" backcolor="#E6E6FA" hTextAlign="Center" vTextAlign="Middle" hImageAlign="Center" vImageAlign="Middle" blankWhenNull="true" fontName="Times New Roman" pdfEncoding="Identity-H" pdfFontName="static/fonts/timesbd.ttf" fontSize="16.0" bold="true" italic="false" underline="false" strikeThrough="false">
+        <pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+        <box>
+            <pen lineWidth="0.75" lineStyle="Solid" lineColor="#7E749E"/>
+        </box>
+    </style>
+    <style name="Columns" mode="Transparent" forecolor="#050505" backcolor="#E6E6FA" hTextAlign="Center" vTextAlign="Middle" hImageAlign="Center" vImageAlign="Middle" blankWhenNull="true" fontName="Times New Roman" pdfEncoding="Identity-H" pdfFontName="static/fonts/times.ttf" fontSize="16.0" bold="false" italic="false" underline="false" strikeThrough="false">
+        <pen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+        <box>
+            <pen lineWidth="0.75" lineStyle="Solid" lineColor="#7E749E"/>
+        </box>
+    </style>
+    <parameter name="imagesPath" class="java.lang.String"/>
+    <field name="id" class="java.lang.Long" />
+    <field name="name" class="java.lang.String" />
+    <field name="description" class="java.lang.String" />
+    <field name="category" class="top.dev.narvaez.product_inventory.products.domain.models.CategoryModel" />
+    <field name="price" class="java.math.BigDecimal" />
+    <field name="manufacturer" class="java.lang.String" />
+    <field name="stock" class="java.lang.Integer" />
+    <field name="minStock" class="java.lang.Integer" />
+    <field name="maxStock" class="java.lang.Integer" />
+    <background splitType="Stretch"/>
+    <title height="116" splitType="Stretch">
+        <element kind="frame" uuid="aacec264-204f-4156-a866-a33ff6d026d1" mode="Opaque" x="-20" y="8" width="842" height="65" forecolor="#7E749E" backcolor="#7E749E">
+            <element kind="staticText" uuid="5364153a-59f2-474e-9c6a-dc7cbafd0667" x="570" y="0" width="250" height="65" hTextAlign="Center" style="Title">
+                <text><![CDATA[Product List]]></text>
+            </element>
+            <element kind="image" uuid="5e670833-2a0b-4f56-88ef-c971742aedb5" x="122" y="6" width="50" height="53">
+                <expression><![CDATA[$P{imagesPath} + "BoxSearch.svg"]]></expression>
+            </element>
+            <element kind="line" uuid="8c7ec92e-6ded-4136-b646-9beebcba04e7" positionType="FixRelativeToBottom" x="0" y="32" width="125" height="1" forecolor="#E6E6FA">
+                <property name="com.jaspersoft.studio.unit.width" value="px"/>
+            </element>
+            <element kind="line" uuid="11c3c6ed-3604-4faa-80d0-4a6b4a1e61b6" positionType="FixRelativeToBottom" x="170" y="32" width="400" height="1" forecolor="#E6E6FA">
+                <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                <property name="com.jaspersoft.studio.unit.x" value="px"/>
+            </element>
+            <element kind="line" uuid="9dce9f28-7ff8-432f-941f-c359224b1595" positionType="FixRelativeToBottom" x="820" y="32" width="22" height="1" forecolor="#E6E6FA">
+                <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                <property name="com.jaspersoft.studio.unit.x" value="px"/>
+            </element>
+        </element>
+        <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+        <property name="com.jaspersoft.studio.unit.height" value="px"/>
+    </title>
+    <pageHeader splitType="Stretch"/>
+    <columnHeader height="30" splitType="Stretch">
+        <element kind="staticText" uuid="f9d60b6d-b777-4c58-b25e-7340dde5daeb" x="0" y="0" width="40" height="30" style="Headers">
+            <text><![CDATA[ID]]></text>
+        </element>
+        <element kind="staticText" uuid="24ed3ae2-829c-4929-a17e-8101f2add8ac" x="40" y="0" width="100" height="30" style="Headers">
+            <text><![CDATA[Name]]></text>
+        </element>
+        <element kind="staticText" uuid="8e6d4ef6-b0a9-4602-a762-d2826e57cf74" x="140" y="0" width="170" height="30" style="Headers">
+            <text><![CDATA[Description]]></text>
+        </element>
+        <element kind="staticText" uuid="e9808a82-7a10-4900-aa72-657091903bd3" x="310" y="0" width="100" height="30" style="Headers">
+            <text><![CDATA[Category]]></text>
+        </element>
+        <element kind="staticText" uuid="244604b7-1436-407c-9f1c-e2ab37eb3827" x="410" y="0" width="91" height="30" style="Headers">
+            <text><![CDATA[Price]]></text>
+        </element>
+        <element kind="staticText" uuid="7dc07100-a0a2-4179-923c-21b9a3359cee" x="500" y="0" width="100" height="30" style="Headers">
+            <text><![CDATA[Manufacturer]]></text>
+        </element>
+        <element kind="staticText" uuid="0d63086e-01d4-4390-8a9d-42b6e0c02b58" x="600" y="0" width="40" height="30" style="Headers">
+            <text><![CDATA[Stock]]></text>
+        </element>
+        <element kind="staticText" uuid="0cf7e0f4-14f4-41fb-8956-7fdd7524d418" x="640" y="0" width="80" height="30" style="Headers">
+            <text><![CDATA[Min Stock]]></text>
+        </element>
+        <element kind="staticText" uuid="fbf36675-865f-46ca-af73-bbc9c7814154" x="720" y="0" width="80" height="30" style="Headers">
+            <text><![CDATA[Max Stock]]></text>
+        </element>
+    </columnHeader>
+    <detail>
+        <band height="20" splitType="Stretch">
+            <element kind="frame" uuid="07ec1ebb-ad1e-4444-9b79-c6e9b68a785f" x="0" y="0" width="800" height="20">
+                <property name="com.jaspersoft.studio.layout"/>
+                <element kind="textField" uuid="2b603ee3-613a-4ec3-8873-da6f054aa414" stretchType="ContainerHeight" x="0" y="0" width="40" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
+                    <expression><![CDATA[$F{id}]]></expression>
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
+                </element>
+                <element kind="textField" uuid="85fc97b2-6242-421e-b048-6ba0b305517f" stretchType="ContainerHeight" x="40" y="0" width="100" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
+                    <expression><![CDATA[$F{name}]]></expression>
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
+                </element>
+                <element kind="textField" uuid="08447c5e-384b-4f6c-aabc-6c508bfb9937" stretchType="ContainerHeight" x="140" y="0" width="170" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Justified" vTextAlign="Middle" style="Columns">
+                    <expression><![CDATA[$F{description} != null ? $F{description} : "Sin descripción"]]></expression>
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
+                    <box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="5" style="Columns"/>
+                </element>
+                <element kind="textField" uuid="9ff0e695-ff98-4c6d-b90c-68e760b2725a" stretchType="ContainerHeight" x="310" y="0" width="100" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
+                    <expression><![CDATA[$F{category}.getName().name()]]></expression>
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
+                </element>
+                <element kind="textField" uuid="fd4b2076-72dd-48a0-bf17-e6a817ff4602" stretchType="ContainerHeight" x="410" y="0" width="90" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
+                    <expression><![CDATA[$F{price}]]></expression>
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
+                </element>
+                <element kind="textField" uuid="30b7a229-c4d7-4815-9b9a-26f8b7775bb5" stretchType="ContainerHeight" x="500" y="0" width="100" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
+                    <expression><![CDATA[$F{manufacturer}]]></expression>
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
+                </element>
+                <element kind="textField" uuid="06df0610-4e0b-4314-ac11-91bb8d86f98e" stretchType="ContainerHeight" x="600" y="0" width="40" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
+                    <expression><![CDATA[$F{stock}]]></expression>
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
+                </element>
+                <element kind="textField" uuid="8618631c-130f-41bb-b868-25b17cac7d30" stretchType="ContainerHeight" x="640" y="0" width="80" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
+                    <expression><![CDATA[$F{minStock}]]></expression>
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
+                </element>
+                <element kind="textField" uuid="b1563763-4c53-474c-8051-108e1446aeb9" stretchType="ContainerHeight" x="720" y="0" width="80" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center" vTextAlign="Middle" style="Columns">
+                    <expression><![CDATA[$F{maxStock}]]></expression>
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b63ca68-bce2-49b1-aa26-1bb89889e307"/>
+                </element>
+            </element>
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.spreadsheet.SpreadsheetLayout"/>
+        </band>
+    </detail>
+    <columnFooter height="13" splitType="Stretch"/>
+    <pageFooter height="16" splitType="Stretch">
+        <element kind="frame" uuid="c1b0a71f-cb6f-45d5-be38-fd69b3a2f635" mode="Opaque" x="0" y="0" width="800" height="16" backcolor="#E6E6FA">
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+            <element kind="textField" uuid="d19932b2-efe3-4049-9925-585250ebd9a3" mode="Transparent" x="0" y="0" width="280" height="16" backcolor="#E6E6E6" fontName="Times New Roman" pdfEncoding="Identity-H" pdfFontName="static/fonts/times.ttf" fontSize="11.0" hTextAlign="Left" vTextAlign="Middle">
+                <expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of " + $V{PAGE_NUMBER} ]]></expression>
+            </element>
+            <element kind="textField" uuid="fd12d348-52e1-467a-8cd1-820bb197fdd2" x="534" y="0" width="266" height="16" fontName="Times New Roman" pdfEncoding="Identity-H" pdfFontName="static/fonts/times.ttf" fontSize="11.0" pattern="EEEEE dd MMMMM yyyy" hTextAlign="Right" vTextAlign="Middle">
+                <expression><![CDATA[new java.util.Date()]]></expression>
+            </element>
+        </element>
+    </pageFooter>
+    <lastPageFooter height="150">
+        <element kind="frame" uuid="17c1f60b-ebe0-4173-8cea-0fae77dc22c2" positionType="FixRelativeToBottom" stretchType="ElementGroupBottom" x="0" y="0" width="800" height="120">
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <element kind="image" uuid="d49b97f3-5789-4a9f-b920-fc6fba5399e9" positionType="FixRelativeToBottom" x="640" y="0" width="130" height="100">
+                <expression><![CDATA[$P{imagesPath} + "Signature.svg"]]></expression>
+            </element>
+            <element kind="line" uuid="b1177639-947a-4529-8a40-537771d23dc8" positionType="FixRelativeToBottom" x="640" y="100" width="130" height="1" forecolor="#050505">
+                <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                <property name="com.jaspersoft.studio.unit.x" value="px"/>
+            </element>
+            <element kind="staticText" uuid="3a254e0c-0c33-4f36-a556-44e54ed02b23" x="640" y="101" width="130" height="18" fontName="Times New Roman" pdfEncoding="Identity-H" pdfFontName="static/fonts/times.ttf" fontSize="11.0" hTextAlign="Center" vTextAlign="Middle">
+                <text><![CDATA[Narváez Paredes Daisy Dev]]></text>
+            </element>
+        </element>
+        <element kind="frame" uuid="6542b37b-13d0-43f2-9403-dbe5ce721bd0" mode="Opaque" x="1" y="134" width="800" height="16" backcolor="#E6E6FA">
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+            <element kind="textField" uuid="7d51bdf7-6191-4221-80ad-c770e8ba966b" mode="Transparent" x="0" y="0" width="280" height="16" backcolor="#E6E6E6" fontName="Times New Roman" pdfEncoding="Identity-H" pdfFontName="static/fonts/timesbd.ttf" fontSize="11.0" hTextAlign="Left" vTextAlign="Middle">
+                <expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of " + $V{PAGE_NUMBER} ]]></expression>
+            </element>
+            <element kind="textField" uuid="75a5f18f-80c5-47c5-a152-148d95c460e0" x="534" y="0" width="266" height="16" fontName="Times New Roman" pdfEncoding="Identity-H" pdfFontName="static/fonts/timesbd.ttf" fontSize="11.0" pattern="EEEEE dd MMMMM yyyy" hTextAlign="Right" vTextAlign="Middle">
+                <expression><![CDATA[new java.util.Date()]]></expression>
+            </element>
+        </element>
+    </lastPageFooter>
+    <summary height="20" splitType="Stretch"/>
+</jasperReport>

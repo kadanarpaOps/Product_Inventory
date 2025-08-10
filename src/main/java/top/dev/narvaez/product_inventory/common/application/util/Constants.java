@@ -15,6 +15,15 @@ public class Constants {
     public static final String MANUFACTURER = "MIMI";
     public static final String AUDIT_USER = "SYSTEM";
 
+    // Report Constants
+    public static final String FORMAT_PDF = "pdf";
+    public static final String FORMAT_HTML = "html";
+    public static final String FORMAT_XLS = "xls";
+    public static final String REPORT_PATH = "/templates/report/";
+    public static final String IMG_PATH = "classpath:/static/images/";
+
+    public static final String PRODUCT_LIST = "ProductList.jrxml";
+
     public static final String ADMIN_PASSWORD = "200548";
 
     // Message Constants
