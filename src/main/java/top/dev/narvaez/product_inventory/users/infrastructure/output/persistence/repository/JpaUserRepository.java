@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
 
-    @Query(value = "SELECT u FROM UserEntity u WHERE u.username = :username", nativeQuery = false)
-    public Optional<UserEntity> findUser(@Param("username") String username);
+    @Query(value = "SELECT u FROM UserEntity u WHERE u.username = :username")
+    Optional<UserEntity> findUserByUsername(@Param("username") String username);
 
 }

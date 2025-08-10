@@ -11,7 +11,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Component
-public class AuditProducRepositoryAdapter implements AuditProductRepositoryPort {
+public class AuditProducAdapterPort implements AuditProductRepositoryPort {
 
     private final JpaAuditProductRepository auditRepository;
 

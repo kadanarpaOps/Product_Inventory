@@ -1,6 +1,5 @@
 package top.dev.narvaez.product_inventory.products.application.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,6 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import top.dev.narvaez.product_inventory.common.model.exceptions.EntityNotFoundException;
+import top.dev.narvaez.product_inventory.common.model.exceptions.MismatchedModelIdException;
 import top.dev.narvaez.product_inventory.products.domain.models.CategoryModel;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.ports.out.CategoryRepositoryPort;
@@ -96,7 +97,7 @@ class CategoryServicePortTest {
 
         CategoryModel newCategory = mockMapper.createCategoryModel(10L, ProductCategory.UNDEFINED, "undefined");
 
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(MismatchedModelIdException.class, () ->
                 categoryService.updateCategory(newCategory, 12L)
         );
 

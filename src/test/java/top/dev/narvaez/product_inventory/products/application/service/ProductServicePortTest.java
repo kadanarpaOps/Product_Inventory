@@ -9,7 +9,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import top.dev.narvaez.product_inventory.common.application.util.Constants;
+import top.dev.narvaez.product_inventory.common.model.exceptions.MismatchedModelIdException;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
+import top.dev.narvaez.product_inventory.products.domain.exceptions.ProductAlreadyActivatedException;
+import top.dev.narvaez.product_inventory.products.domain.exceptions.ProductAlreadyDisabledException;
+import top.dev.narvaez.product_inventory.products.domain.exceptions.StockAboveMaximumException;
+import top.dev.narvaez.product_inventory.products.domain.exceptions.StockBelowMinimumException;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductCategory;
 import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.CategoryUseCases;
@@ -118,7 +123,7 @@ class ProductServicePortTest {
             return toUpdate;
         });
 
-        ProductModel updatedProduct = productService.updateProduct(mockProduct, 1L);
+        ProductModel updatedProduct = productService.updateProduct(mockProduct,1L);
 
         assertNotNull(updatedProduct.getId());
         assertNotNull(updatedProduct.getCategory());
@@ -129,7 +134,13 @@ class ProductServicePortTest {
         assertEquals(mockProduct.getName(), updatedProduct.getName());
         assertEquals(ProductCategory.ELECTRONICS, updatedProduct.getCategory().getName());
 
-        verify(productRepository, times(1)).saveProduct(any(ProductModel.class));
+        mockNullProduct = mockMapper.mapNullValuesProductModel();
+        mockNullProduct.setName(null);
+        mockNullProduct.setDescription(null);
+        mockNullProduct.setPrice(null);
+        productService.updateProduct(mockNullProduct,1L);
+
+        verify(productRepository, times(2)).saveProduct(any(ProductModel.class));
 
     }
 
@@ -137,7 +148,7 @@ class ProductServicePortTest {
     @DisplayName("updateProduct - Should throws IllegalArgumentException")
     void updateProductShouldThrowIllegalArgumentException() {
 
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(MismatchedModelIdException.class, () ->
                 productService.updateProduct(mockProduct, 10L));
 
     }
@@ -255,7 +266,7 @@ class ProductServicePortTest {
     void disableProductByIdShouldThrowExceptionIfAlreadyDisabled() {
         mockProduct.setActive(false);
         when(productRepository.selectById(1L)).thenReturn(Optional.of(mockProduct));
-        assertThrows(BadRequestException.class, () -> productService.disableProductById(1L));
+        assertThrows(ProductAlreadyDisabledException.class, () -> productService.disableProductById(1L));
         verify(productRepository, never()).saveProduct(any());
     }
 
@@ -273,7 +284,7 @@ class ProductServicePortTest {
     @Test
     void activateProductByIdShouldThrowExceptionIfAlreadyActive() {
         when(productRepository.selectById(1L)).thenReturn(Optional.of(mockProduct));
-        assertThrows(BadRequestException.class, () -> productService.activateProductById(1L));
+        assertThrows(ProductAlreadyActivatedException.class, () -> productService.activateProductById(1L));
         verify(productRepository, never()).saveProduct(any());
     }
 
@@ -287,13 +298,13 @@ class ProductServicePortTest {
     @Test
     void verifyValidStockShouldThrowIfLowerThanMin() {
         mockProduct.setStock(3);
-        assertThrows(IllegalArgumentException.class, () -> productService.verifyValidStock(mockProduct));
+        assertThrows(StockBelowMinimumException.class, () -> productService.verifyValidStock(mockProduct));
     }
 
     @Test
     void verifyValidStockShouldThrowIfGreaterThanMax() {
         mockProduct.setStock(30);
-        assertThrows(IllegalArgumentException.class, () -> productService.verifyValidStock(mockProduct));
+        assertThrows(StockAboveMaximumException.class, () -> productService.verifyValidStock(mockProduct));
     }
 
 }
