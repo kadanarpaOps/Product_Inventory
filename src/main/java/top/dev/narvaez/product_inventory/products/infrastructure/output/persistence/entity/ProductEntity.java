@@ -2,7 +2,7 @@ package top.dev.narvaez.product_inventory.products.infrastructure.output.persist
 
 import jakarta.persistence.*;
 import lombok.*;
-import top.dev.narvaez.product_inventory.listeners.application.listener.AuditProductListener;
+import top.dev.narvaez.product_inventory.listeners.infrastructure.output.persistence.listener.AuditProductListener;
 
 import java.math.BigDecimal;
 

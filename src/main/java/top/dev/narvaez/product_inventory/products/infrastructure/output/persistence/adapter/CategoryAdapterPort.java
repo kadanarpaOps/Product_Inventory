@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Component
-public class CategoryRepositoryAdapter implements CategoryRepositoryPort {
+public class CategoryAdapterPort implements CategoryRepositoryPort {
 
     private final JpaCategoryRepository categoryRepository;
 
@@ -40,7 +40,6 @@ public class CategoryRepositoryAdapter implements CategoryRepositoryPort {
     }
 
     public boolean verifyRepositoryReady() {
-        if (categoryRepository.count() == 0) return true;
-        return false;
+        return categoryRepository.count() == 0;
     }
 }

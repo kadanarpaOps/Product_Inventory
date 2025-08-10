@@ -8,7 +8,7 @@ import top.dev.narvaez.product_inventory.listeners.domain.model.AuditProductMode
 import top.dev.narvaez.product_inventory.listeners.domain.model.OperationType;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.in.AuditProductUseCases;
 import top.dev.narvaez.product_inventory.listeners.domain.ports.out.AuditProductRepositoryPort;
-import top.dev.narvaez.product_inventory.users.application.service.UserService;
+import top.dev.narvaez.product_inventory.users.application.service.users.UserAuthService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +19,7 @@ public class AuditProductServicePort implements AuditProductUseCases {
 
     private final AuditProductRepositoryPort auditProductRepository;
 
-    private final UserService userService;
+    private final UserAuthService userService;
 
     private final EntityManager entityManager;
 
@@ -40,7 +40,7 @@ public class AuditProductServicePort implements AuditProductUseCases {
 
     @Transactional
     public void setAuditUpdateParams() {
-        String username = userService.getAuthenticatedUser();
+        String username = userService.getAuthUsername();
         entityManager.createNativeQuery("SET @operation = :op, @audit_user = :user, @audit_event = :date")
                 .setParameter("op", OperationType.UPDATE)
                 .setParameter("user", username)
