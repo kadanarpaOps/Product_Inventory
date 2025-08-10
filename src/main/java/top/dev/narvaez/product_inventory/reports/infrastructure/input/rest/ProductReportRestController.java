@@ -2,9 +2,7 @@ package top.dev.narvaez.product_inventory.reports.infrastructure.input.rest;
 
 import lombok.AllArgsConstructor;
 import net.sf.jasperreports.engine.JRException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +13,9 @@ import top.dev.narvaez.product_inventory.products.domain.models.ProductModel;
 import top.dev.narvaez.product_inventory.products.domain.ports.in.ProductUseCases;
 import top.dev.narvaez.product_inventory.reports.domain.ports.in.ReportUseCases;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static top.dev.narvaez.product_inventory.reports.infrastructure.input.rest.util.HeadersBuilder.prepareHeaders;
 
 @AllArgsConstructor
 @RestController
@@ -39,22 +37,5 @@ public class ProductReportRestController {
         return new ResponseEntity<>(pdfBytes, prepareHeaders(format), HttpStatus.OK);
     }
 
-    private HttpHeaders prepareHeaders(String fileFormat) {
-        HttpHeaders headers = new HttpHeaders();
-
-        if (fileFormat.equalsIgnoreCase(Constants.FORMAT_HTML))
-            headers.setContentType(MediaType.TEXT_HTML);
-        else if (fileFormat.equalsIgnoreCase(Constants.FORMAT_XLS))
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        else
-            headers.setContentType(MediaType.APPLICATION_PDF);
-
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("ddMMyyyy_HHmmss");
-        headers.setContentDispositionFormData("attachment", "ProductsList_" + LocalDateTime.now().format(format) + "." +
-                (fileFormat.toLowerCase() == Constants.FORMAT_HTML ? "html" :
-                        (fileFormat.toLowerCase() == Constants.FORMAT_XLS ? "xls" : "pdf")));
-
-        return headers;
-    }
 
 }
